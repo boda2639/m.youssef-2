@@ -1,0 +1,788 @@
+/*=====================================
+            Google Font
+======================================*/
+
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&display=swap');
+
+/*=====================================
+            Reset
+======================================*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Alexandria',sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#0a0a0a;
+    color:#fff;
+}
+
+/*=====================================
+            Variables
+======================================*/
+
+:root{
+
+    --primary:#ff8c00;
+    --primaryHover:#ffa726;
+
+    --bg:#0a0a0a;
+    --card:#131313;
+
+    --text:#ffffff;
+    --muted:#a8a8a8;
+
+    --border:#242424;
+
+    --shadow:0 15px 35px rgba(0,0,0,.45);
+
+}
+
+/*=====================================
+            Header
+======================================*/
+
+header{
+
+    position:sticky;
+
+    top:0;
+
+    width:100%;
+
+    z-index:999;
+
+}
+
+/*=====================================
+            Navbar
+======================================*/
+
+.navbar{
+
+    width:100%;
+
+    height:75px;
+
+    background:#111;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:0 40px;
+
+    border-bottom:1px solid rgba(255,140,0,.25);
+
+    box-shadow:var(--shadow);
+
+}
+
+/*=====================================
+            Logo
+======================================*/
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    text-decoration:none;
+
+    color:#fff;
+
+    font-size:26px;
+
+    font-weight:800;
+
+    transition:.3s;
+
+}
+
+.logo i{
+
+    color:var(--primary);
+
+    font-size:28px;
+
+}
+
+.logo:hover{
+
+    color:var(--primary);
+
+}
+
+/*=====================================
+            Links
+======================================*/
+
+.nav-links{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:28px;
+
+    list-style:none;
+
+}
+
+.nav-links li{
+
+    list-style:none;
+
+}
+
+.nav-links a{
+
+    text-decoration:none;
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    font-size:15px;
+
+    font-weight:500;
+
+    transition:.3s;
+
+    position:relative;
+
+}
+
+.nav-links a i{
+
+    color:var(--primary);
+
+}
+
+.nav-links a:hover{
+
+    color:var(--primary);
+
+}
+
+.nav-links a.active{
+
+    color:var(--primary);
+
+}
+
+/*=====================================
+        Hover Underline
+======================================*/
+
+.nav-links a::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:-10px;
+
+    right:0;
+
+    width:0;
+
+    height:2px;
+
+    background:var(--primary);
+
+    transition:.3s;
+
+}
+
+.nav-links a:hover::after{
+
+    width:100%;
+
+}
+
+/*=====================================
+            Search Box
+======================================*/
+
+.search-box{
+
+    width:290px;
+
+    height:45px;
+
+    display:flex;
+
+    align-items:center;
+
+    background:#191919;
+
+    border:1px solid var(--border);
+
+    border-radius:40px;
+
+    overflow:hidden;
+
+}
+
+.search-box input{
+
+    flex:1;
+
+    height:100%;
+
+    background:none;
+
+    border:none;
+
+    outline:none;
+
+    color:#fff;
+
+    padding:0 18px;
+
+    font-size:14px;
+
+}
+
+.search-box input::placeholder{
+
+    color:#888;
+
+}
+
+.search-box button{
+
+    width:55px;
+
+    height:100%;
+
+    border:none;
+
+    background:none;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.search-box button:hover{
+
+    background:rgba(255,140,0,.12);
+
+}
+
+.search-box button i{
+
+    color:var(--primary);
+
+    font-size:17px;
+
+}
+/*=====================================
+            Menu Button
+======================================*/
+
+.menu-btn{
+
+    width:45px;
+
+    height:45px;
+
+    border:none;
+
+    outline:none;
+
+    background:#1b1b1b;
+
+    color:#fff;
+
+    border-radius:12px;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.menu-btn i{
+
+    font-size:20px;
+
+}
+
+.menu-btn:hover{
+
+    background:var(--primary);
+
+    transform:scale(1.05);
+
+}
+
+/*=====================================
+            Overlay
+======================================*/
+
+.overlay{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:100vh;
+
+    background:rgba(0,0,0,.65);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.35s;
+
+    z-index:998;
+
+}
+
+.overlay.active{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+/*=====================================
+            Mobile Menu
+======================================*/
+
+.mobile-menu{
+
+    position:fixed;
+
+    top:0;
+
+    right:-320px;
+
+    width:320px;
+
+    max-width:90%;
+
+    height:100vh;
+
+    background:#111;
+
+    border-left:1px solid var(--border);
+
+    transition:.35s ease;
+
+    z-index:999;
+
+    overflow-y:auto;
+
+    box-shadow:-10px 0 30px rgba(0,0,0,.45);
+
+}
+
+.mobile-menu.active{
+
+    right:0;
+
+}
+
+/*=====================================
+        Mobile Header
+======================================*/
+
+.mobile-header{
+
+    height:75px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 20px;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.mobile-header h2{
+
+    color:#fff;
+
+    font-size:22px;
+
+    font-weight:700;
+
+}
+
+#closeMenu{
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    background:#1a1a1a;
+
+    color:#fff;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+#closeMenu:hover{
+
+    background:var(--primary);
+
+}
+
+/*=====================================
+        Mobile Links
+======================================*/
+
+.mobile-menu ul{
+
+    list-style:none;
+
+    padding:20px;
+
+}
+
+.mobile-menu li{
+
+    margin-bottom:12px;
+
+}
+
+.mobile-menu a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    text-decoration:none;
+
+    color:#fff;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    transition:.3s;
+
+}
+
+.mobile-menu a i{
+
+    width:22px;
+
+    color:var(--primary);
+
+}
+
+.mobile-menu a:hover{
+
+    background:#1b1b1b;
+
+    color:var(--primary);
+
+}
+
+/*=====================================
+        Scroll Effect
+======================================*/
+
+header.scrolled .navbar{
+
+    background:rgba(10,10,10,.95);
+
+    backdrop-filter:blur(12px);
+
+}
+
+/*=====================================
+        Responsive
+======================================*/
+
+@media(max-width:1100px){
+
+    .search-box{
+
+        width:220px;
+
+    }
+
+}
+
+@media(max-width:900px){
+
+    .menu-btn{
+
+        display:flex;
+
+    }
+
+    .nav-links{
+
+        display:none;
+
+    }
+
+    .search-box{
+
+        display:none;
+
+    }
+
+    .navbar{
+
+        padding:0 20px;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .navbar{
+
+        height:65px;
+
+        padding:0 15px;
+
+    }
+
+    .logo{
+
+        font-size:22px;
+
+    }
+
+    .mobile-header{
+
+        height:65px;
+
+    }
+
+}
+
+/*=====================================
+        Scrollbar
+======================================*/
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#111;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:var(--primary);
+
+    border-radius:20px;
+
+}
+/*=====================================
+        Extra Professional Effects
+======================================*/
+
+/* Animation */
+
+@keyframes fadeDown{
+
+    from{
+
+        opacity:0;
+        transform:translateY(-15px);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
+
+    }
+
+}
+
+.navbar{
+
+    animation:fadeDown .5s ease;
+
+}
+
+/* Active Link */
+
+.nav-links a.active{
+
+    color:var(--primary);
+
+    font-weight:700;
+
+}
+
+.nav-links a.active i{
+
+    color:var(--primary);
+
+}
+
+/* Search Focus */
+
+.search-box{
+
+    transition:.3s;
+
+}
+
+.search-box:focus-within{
+
+    border-color:var(--primary);
+
+    box-shadow:0 0 12px rgba(255,140,0,.35);
+
+}
+
+/* Mobile Animation */
+
+.mobile-menu{
+
+    transition:right .35s ease;
+
+}
+
+/* Mobile Active */
+
+.mobile-menu a.active{
+
+    background:rgba(255,140,0,.12);
+
+    color:var(--primary);
+
+}
+
+/* Button Hover */
+
+.menu-btn:hover{
+
+    box-shadow:0 0 15px rgba(255,140,0,.35);
+
+}
+
+/* Logo Animation */
+
+.logo i{
+
+    transition:.3s;
+
+}
+
+.logo:hover i{
+
+    transform:rotate(-15deg);
+
+}
+
+/* Search Button */
+
+.search-box button{
+
+    transition:.3s;
+
+}
+
+.search-box button:hover i{
+
+    transform:scale(1.15);
+
+}
+
+/* Links */
+
+.nav-links a{
+
+    padding:6px 0;
+
+}
+
+.nav-links a i{
+
+    transition:.3s;
+
+}
+
+.nav-links a:hover i{
+
+    transform:translateY(-2px);
+
+}
+
+/* Mobile Links */
+
+.mobile-menu a{
+
+    font-size:15px;
+
+    font-weight:500;
+
+}
+
+.mobile-menu a:hover{
+
+    transform:translateX(-5px);
+
+}
+
+/* Smooth */
+
+body{
+
+    overflow-x:hidden;
+
+}

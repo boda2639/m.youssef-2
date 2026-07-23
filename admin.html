@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>لوحة تحكم الأدمن | منصة M.YOUSSEF</title>
+
+    <link rel="stylesheet" href="admin.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="admin-layout">
+
+    <!-- ========================= -->
+    <!-- Sidebar -->
+    <!-- ========================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <i class="fa-solid fa-graduation-cap"></i>
+
+            <div>
+
+                <h2>M.YOUSSEF</h2>
+
+                <span>لوحة الإدارة</span>
+
+            </div>
+
+        </div>
+
+        <ul class="menu">
+
+            <li class="active"
+                data-page="dashboard">
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>الرئيسية</span>
+
+            </li>
+
+            <li
+                data-page="pendingStudents">
+
+                <i class="fa-solid fa-user-clock"></i>
+
+                <span>طلبات التسجيل</span>
+
+                <span class="badge"
+                    id="pendingCount">0</span>
+
+            </li>
+
+            <li
+                data-page="students">
+
+                <i class="fa-solid fa-users"></i>
+
+                <span>الطلاب</span>
+
+            </li>
+
+            <li
+                data-page="courses">
+
+                <i class="fa-solid fa-book-open"></i>
+
+                <span>الكورسات</span>
+
+            </li>
+
+            <li
+                data-page="wallets">
+
+                <i class="fa-solid fa-wallet"></i>
+
+                <span>المحافظ</span>
+
+            </li>
+
+            <li
+                data-page="statistics">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <span>الإحصائيات</span>
+
+            </li>
+
+            <li
+                data-page="settings">
+
+                <i class="fa-solid fa-gear"></i>
+
+                <span>الإعدادات</span>
+
+            </li>
+
+            <li id="logoutBtn">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>تسجيل الخروج</span>
+
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <!-- ========================= -->
+    <!-- Main -->
+    <!-- ========================= -->
+
+    <main class="content">
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+
+                    مرحباً مستر محمد يوسف 👋
+
+                </h1>
+
+                <p>
+
+                    إدارة منصة M.YOUSSEF التعليمية
+
+                </p>
+
+            </div>
+
+            <div class="admin-info">
+
+                <div class="avatar">
+
+                    <i class="fa-solid fa-user"></i>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ========================= -->
+        <!-- Dashboard -->
+        <!-- ========================= -->
+
+        <section
+            id="dashboard"
+            class="page active-page">
+
+            <div class="cards">
+
+                <div class="card">
+
+                    <i class="fa-solid fa-user-graduate"></i>
+
+                    <h3>
+
+                        عدد الطلاب
+
+                    </h3>
+
+                    <span
+                        id="studentsCount">
+
+                        0
+
+                    </span>
+
+                </div>
+
+                <div class="card">
+
+                    <i class="fa-solid fa-user-clock"></i>
+
+                    <h3>
+
+                        طلبات التسجيل
+
+                    </h3>
+
+                    <span
+                        id="requestsCount">
+
+                        0
+
+                    </span>
+
+                </div>
+
+                <div class="card">
+
+                    <i class="fa-solid fa-book"></i>
+
+                    <h3>
+
+                        الكورسات
+
+                    </h3>
+
+                    <span
+                        id="coursesCount">
+
+                        0
+
+                    </span>
+
+                </div>
+
+                <div class="card">
+
+                    <i class="fa-solid fa-wallet"></i>
+
+                    <h3>
+
+                        إجمالي المحافظ
+
+                    </h3>
+
+                    <span
+                        id="walletTotal">
+
+                        0 جنيه
+
+                    </span>
+
+                </div>
+
+            </div>
+                    <!-- ========================= -->
+        <!-- طلبات التسجيل -->
+        <!-- ========================= -->
+
+        <section
+            id="pendingStudents"
+            class="page">
+
+            <div class="section-header">
+
+                <h2>
+
+                    <i class="fa-solid fa-user-clock"></i>
+
+                    طلبات التسجيل
+
+                </h2>
+
+            </div>
+
+            <div class="table-box">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>الاسم</th>
+
+                            <th>البريد</th>
+
+                            <th>الصف</th>
+
+                            <th>هاتف الطالب</th>
+
+                            <th>ولي الأمر</th>
+
+                            <th>المحافظة</th>
+
+                            <th>المدينة</th>
+
+                            <th>الإجراء</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="pendingStudentsTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- الطلاب -->
+        <!-- ========================= -->
+
+        <section
+            id="students"
+            class="page">
+
+            <div class="section-header">
+
+                <h2>
+
+                    <i class="fa-solid fa-users"></i>
+
+                    الطلاب
+
+                </h2>
+
+            </div>
+
+            <div class="table-box">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>الاسم</th>
+
+                            <th>الإيميل</th>
+
+                            <th>المحفظة</th>
+
+                            <th>عدد الكورسات</th>
+
+                            <th>إدارة</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="studentsTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- الكورسات -->
+        <!-- ========================= -->
+
+        <section
+            id="courses"
+            class="page">
+
+            <div class="section-header">
+
+                <h2>
+
+                    <i class="fa-solid fa-book-open"></i>
+
+                    إدارة الكورسات
+
+                </h2>
+
+                <button
+                    id="addCourseBtn"
+                    class="primary-btn">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    إضافة كورس
+
+                </button>
+
+            </div>
+
+            <div
+                class="courses-grid"
+                id="coursesGrid">
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- المحافظ -->
+        <!-- ========================= -->
+
+        <section
+            id="wallets"
+            class="page">
+
+            <div class="section-header">
+
+                <h2>
+
+                    <i class="fa-solid fa-wallet"></i>
+
+                    المحافظ
+
+                </h2>
+
+            </div>
+
+            <div class="table-box">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>الطالب</th>
+
+                            <th>الرصيد</th>
+
+                            <th>إضافة</th>
+
+                            <th>خصم</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="walletTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- الإحصائيات -->
+        <!-- ========================= -->
+
+        <section
+            id="statistics"
+            class="page">
+
+            <div class="section-header">
+
+                <h2>
+
+                    <i class="fa-solid fa-chart-column"></i>
+
+                    الإحصائيات
+
+                </h2>
+
+            </div>
+
+            <div class="cards">
+
+                <div class="card">
+
+                    <h3>
+
+                        إجمالي الطلاب
+
+                    </h3>
+
+                    <span id="totalStudents">
+
+                        0
+
+                    </span>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>
+
+                        إجمالي الكورسات
+
+                    </h3>
+
+                    <span id="totalCourses">
+
+                        0
+
+                    </span>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>
+
+                        إجمالي الإيرادات
+
+                    </h3>
+
+                    <span id="totalRevenue">
+
+                        0 جنيه
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+                <!-- ========================= -->
+        <!-- الإعدادات -->
+        <!-- ========================= -->
+
+        <section
+            id="settings"
+            class="page">
+
+            <div class="section-header">
+
+                <h2>
+
+                    <i class="fa-solid fa-gear"></i>
+
+                    إعدادات المنصة
+
+                </h2>
+
+            </div>
+
+            <div class="settings-grid">
+
+                <div class="setting-card">
+
+                    <label>
+
+                        اسم المنصة
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="platformName"
+                        value="M.YOUSSEF">
+
+                </div>
+
+                <div class="setting-card">
+
+                    <label>
+
+                        اسم المدرس
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="teacherName"
+                        value="مستر محمد يوسف">
+
+                </div>
+
+                <div class="setting-card">
+
+                    <label>
+
+                        رقم واتساب
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="whatsappNumber">
+
+                </div>
+
+                <div class="setting-card">
+
+                    <button
+                        class="primary-btn"
+                        id="saveSettings">
+
+                        <i class="fa-solid fa-floppy-disk"></i>
+
+                        حفظ الإعدادات
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =================================== -->
+<!-- نافذة إضافة كورس -->
+<!-- =================================== -->
+
+<div
+    class="modal"
+    id="courseModal">
+
+    <div class="modal-content">
+
+        <span
+            class="close-modal"
+            id="closeCourseModal">
+
+            &times;
+
+        </span>
+
+        <h2>
+
+            إضافة كورس جديد
+
+        </h2>
+
+        <form
+            id="courseForm">
+
+            <input
+                type="text"
+                id="courseTitle"
+                placeholder="اسم الكورس"
+                required>
+
+            <input
+                type="text"
+                id="courseSubject"
+                placeholder="المادة"
+                required>
+
+            <input
+                type="number"
+                id="coursePrice"
+                placeholder="السعر">
+
+            <input
+                type="url"
+                id="courseImage"
+                placeholder="رابط الصورة">
+
+            <input
+                type="url"
+                id="courseVideo"
+                placeholder="رابط الفيديو">
+
+            <input
+                type="url"
+                id="youtubeUrl"
+                placeholder="رابط يوتيوب">
+
+            <textarea
+                id="courseDescription"
+                placeholder="وصف الكورس">
+
+            </textarea>
+
+            <button
+                type="submit"
+                class="primary-btn">
+
+                حفظ الكورس
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =================================== -->
+<!-- نافذة تعديل رصيد الطالب -->
+<!-- =================================== -->
+
+<div
+    class="modal"
+    id="walletModal">
+
+    <div class="modal-content">
+
+        <span
+            class="close-modal"
+            id="closeWalletModal">
+
+            &times;
+
+        </span>
+
+        <h2>
+
+            تعديل المحفظة
+
+        </h2>
+
+        <input
+            type="number"
+            id="walletAmount"
+            placeholder="أدخل المبلغ">
+
+        <div class="wallet-buttons">
+
+            <button
+                id="addWalletBtn"
+                class="primary-btn">
+
+                إضافة رصيد
+
+            </button>
+
+            <button
+                id="removeWalletBtn"
+                class="danger-btn">
+
+                خصم رصيد
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script
+type="module"
+src="admin.js">
+
+</script>
+
+</body>
+
+</html>

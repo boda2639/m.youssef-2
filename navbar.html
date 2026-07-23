@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>M.YOUSSEF Platform</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="navbar.css">
+
+</head>
+
+<body>
+
+    <header>
+
+        <nav class="navbar">
+
+            <!-- Logo -->
+
+            <a href="index.html" class="logo">
+
+                <i class="fa-solid fa-graduation-cap"></i>
+
+                <span>M.YOUSSEF</span>
+
+            </a>
+
+            <!-- Links -->
+
+            <ul class="nav-links">
+
+                
+
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span>الكورسات</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="login.html">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <span>تسجيل الدخول</span>
+                    </a>
+                </li> 
+
+                <li>
+                    <a href="profile.html">
+                        <i class="fa-solid fa-user"></i>
+                        <span>الملف الشخصي</span>
+                    </a>
+                </li>
+
+                
+
+            </ul>
+
+            <!-- Search -->
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    placeholder="ابحث عن كورس..."
+                    id="searchInput">
+
+                <button id="searchBtn">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                </button>
+
+            </div>
+
+            <!-- Mobile Button -->
+
+            <button class="menu-btn" id="menuBtn">
+
+                <i class="fa-solid fa-bars"></i>
+
+            </button>
+
+        </nav>
+
+    </header>
+
+    <!-- القائمة الجانبية للموبايل -->
+
+    <aside class="mobile-menu" id="mobileMenu">
+
+        <div class="mobile-header">
+
+            <h2>M.YOUSSEF</h2>
+
+            <button id="closeMenu">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+        <ul>
+
+            <li>
+                <a href="index.html">
+                    <i class="fa-solid fa-house"></i>
+                    الرئيسية
+                </a>
+            </li>
+
+            <li>
+                <a href="dashboard.html">
+                    <i class="fa-solid fa-book-open"></i>
+                    الكورسات
+                </a>
+            </li>
+
+            <li>
+                <a href="login.html">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    تسجيل الدخول
+                </a>
+            </li>
+
+            <li>
+                <a href="register.html">
+                    <i class="fa-solid fa-user-plus"></i>
+                    إنشاء حساب
+                </a>
+            </li>
+
+            <li>
+                <a href="profile.html">
+                    <i class="fa-solid fa-user"></i>
+                    الملف الشخصي
+                </a>
+            </li>
+
+            <li>
+                <a href="wallet.html">
+                    <i class="fa-solid fa-wallet"></i>
+                    المحفظة
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- Overlay -->
+
+    <div class="overlay" id="overlay"></div>
+
+    <!-- JS -->
+
+    <script src="navbar.js"></script>
+
+</body>
+
+</html>

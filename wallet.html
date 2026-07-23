@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>المحفظة | منصة مستر محمد يوسف</title>
+
+    <link rel="stylesheet"
+        href="wallet.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+    <div id="navbarContainer"></div>
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="top-bar">
+
+        <button id="backBtn"
+            class="back-btn">
+
+            <i class="fa-solid fa-arrow-right"></i>
+
+        </button>
+
+        <h1>
+
+            <i class="fa-solid fa-wallet"></i>
+
+            المحفظة
+
+        </h1>
+
+    </header>
+
+
+    <!-- ========================= -->
+    <!-- MAIN -->
+    <!-- ========================= -->
+
+    <main class="wallet-page">
+
+        <!-- Wallet Card -->
+
+        <section class="wallet-card">
+
+            <div class="wallet-icon">
+
+                <i class="fa-solid fa-wallet"></i>
+
+            </div>
+
+            <h2>
+
+                رصيد المحفظة
+
+            </h2>
+
+            <h1 id="walletBalance">
+
+                0 جنيه
+
+            </h1>
+
+            <button id="refreshWallet"
+                class="refresh-btn">
+
+                <i class="fa-solid fa-rotate-right"></i>
+
+                تحديث الرصيد
+
+            </button>
+
+        </section>
+
+
+        <!-- Student Info -->
+
+        <section class="student-card">
+
+            <h3>
+
+                بيانات الطالب
+
+            </h3>
+
+            <div class="info-row">
+
+                <span>
+
+                    الاسم
+
+                </span>
+
+                <strong id="studentName">
+
+                    ...
+
+                </strong>
+
+            </div>
+
+            <div class="info-row">
+
+                <span>
+
+                    كود الطالب
+
+                </span>
+
+                <strong id="studentCode">
+
+                    ...
+
+                </strong>
+
+            </div>
+
+            <div class="info-row">
+
+                <span>
+
+                    البريد الإلكتروني
+
+                </span>
+
+                <strong id="studentEmail">
+
+                    ...
+
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- Statistics -->
+
+        <section class="stats-grid">
+
+            <div class="stat-box">
+
+                <i class="fa-solid fa-book"></i>
+
+                <h2 id="coursesCount">
+
+                    0
+
+                </h2>
+
+                <p>
+
+                    الكورسات المشتراة
+
+                </p>
+
+            </div>
+
+            <div class="stat-box">
+
+                <i class="fa-solid fa-money-bill-wave"></i>
+
+                <h2 id="spentMoney">
+
+                    0
+
+                </h2>
+
+                <p>
+
+                    إجمالي المصروف
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- History -->
+
+        <section class="history-card">
+
+            <div class="history-title">
+
+                <i class="fa-solid fa-clock-rotate-left"></i>
+
+                <h3>
+
+                    سجل العمليات
+
+                </h3>
+
+            </div>
+
+            <div id="historyList">
+
+                <div class="empty-history">
+
+                    <i class="fa-solid fa-inbox"></i>
+
+                    <p>
+
+                        لا توجد عمليات حتى الآن
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- Loading -->
+
+    <div id="loadingBox"
+        class="loading-box">
+
+        <div class="loader"></div>
+
+        <p>
+
+            جاري تحميل المحفظة...
+
+        </p>
+
+    </div>
+
+
+    <!-- JS -->
+
+    <script type="module"
+        src="wallet.js"></script>
+      <script src="navbar-loader.js"></script>  
+
+</body>
+
+</html>

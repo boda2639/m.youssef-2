@@ -1,0 +1,2856 @@
+/* =====================================================
+                DASHBOARD.CSS
+                    PART 1
+        VARIABLES + RESET + BACKGROUND
+        HERO + SEARCH
+===================================================== */
+
+
+/* =====================================================
+                    GOOGLE FONT
+===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap');
+
+
+/* =====================================================
+                    VARIABLES
+===================================================== */
+
+:root{
+
+    --primary:#ff8c00;
+    --primary-dark:#ff6a00;
+
+    --secondary:#33cfff;
+    --secondary-dark:#18b9ef;
+
+    --dark:#050505;
+    --dark-light:#0c0c0c;
+    --card:#111111;
+
+    --white:#ffffff;
+
+    --text:#ffffff;
+    --muted:#9d9d9d;
+
+    --glass:rgba(255,255,255,.05);
+    --glass-hover:rgba(255,255,255,.08);
+
+    --border:rgba(255,255,255,.08);
+
+    --radius:24px;
+
+    --shadow:
+        0 20px 50px rgba(0,0,0,.45);
+
+}
+
+
+/* =====================================================
+                    RESET
+===================================================== */
+
+*{
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+    font-family:"Almarai",sans-serif;
+
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    background:var(--dark);
+
+    color:var(--text);
+
+    overflow-x:hidden;
+
+    min-height:100vh;
+
+}
+
+img{
+
+    display:block;
+
+    max-width:100%;
+
+}
+
+a{
+
+    color:inherit;
+
+    text-decoration:none;
+
+}
+
+button{
+
+    font-family:inherit;
+
+}
+
+.hidden{
+
+    display:none !important;
+
+}
+
+
+/* =====================================================
+                CUSTOM SCROLLBAR
+===================================================== */
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#080808;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:linear-gradient(
+        180deg,
+        var(--primary),
+        var(--primary-dark)
+    );
+
+    border-radius:50px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:var(--primary);
+
+}
+
+::selection{
+
+    background:var(--secondary);
+
+    color:#000;
+
+}
+
+
+/* =====================================================
+                BACKGROUND
+===================================================== */
+
+.background{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:-20;
+
+    overflow:hidden;
+
+    background:
+        radial-gradient(
+            circle at 85% 0%,
+            rgba(255,140,0,.16),
+            transparent 35%
+        ),
+
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(51,207,255,.13),
+            transparent 35%
+        ),
+
+        #050505;
+
+}
+
+.background::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:500px;
+    height:500px;
+
+    top:-220px;
+    right:-150px;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,140,0,.08);
+
+    filter:blur(120px);
+
+}
+
+.background::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:500px;
+    height:500px;
+
+    left:-180px;
+    bottom:-180px;
+
+    border-radius:50%;
+
+    background:
+        rgba(51,207,255,.08);
+
+    filter:blur(120px);
+
+}
+
+
+/* =====================================================
+                HERO
+===================================================== */
+
+.courses-hero{
+
+    width:92%;
+    max-width:1400px;
+
+    margin:auto;
+
+    padding-top:45px;
+    padding-bottom:25px;
+
+}
+
+.hero-content{
+
+    margin-bottom:35px;
+
+}
+
+.hero-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:10px 18px;
+
+    border-radius:50px;
+
+    background:
+        rgba(255,140,0,.10);
+
+    border:
+        1px solid rgba(255,140,0,.25);
+
+    color:var(--primary);
+
+    font-size:13px;
+
+    font-weight:800;
+
+    margin-bottom:18px;
+
+}
+
+.hero-content h1{
+
+    font-size:clamp(34px,5vw,56px);
+
+    font-weight:800;
+
+    line-height:1.3;
+
+    margin-bottom:16px;
+
+}
+
+.hero-content p{
+
+    max-width:700px;
+
+    color:var(--muted);
+
+    font-size:16px;
+
+    line-height:2;
+
+}
+
+
+/* =====================================================
+                SEARCH
+===================================================== */
+
+.search-container{
+
+    width:100%;
+    height:72px;
+
+    display:flex;
+    align-items:center;
+
+    padding:0 24px;
+
+    border-radius:20px;
+
+    background:var(--glass);
+
+    border:1px solid var(--border);
+
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
+
+    transition:.35s;
+
+}
+
+.search-container:hover{
+
+    background:var(--glass-hover);
+
+}
+
+.search-container:focus-within{
+
+    border-color:
+        rgba(51,207,255,.35);
+
+    box-shadow:
+
+        0 0 0 1px rgba(51,207,255,.15),
+
+        0 20px 45px rgba(0,0,0,.35);
+
+}
+
+.search-container i{
+
+    color:var(--secondary);
+
+    font-size:20px;
+
+    margin-left:18px;
+
+}
+
+.search-container input{
+
+    flex:1;
+
+    height:100%;
+
+    border:none;
+
+    outline:none;
+
+    background:none;
+
+    color:#fff;
+
+    font-size:16px;
+
+    font-weight:700;
+
+}
+
+.search-container input::placeholder{
+
+    color:#8f8f8f;
+
+}
+
+
+/* =====================================================
+            MAIN SECTION
+===================================================== */
+
+.courses-section{
+
+    width:92%;
+
+    max-width:1400px;
+
+    margin:auto;
+
+    padding-top:30px;
+
+    padding-bottom:100px;
+
+}
+/* =====================================================
+                DASHBOARD.CSS
+                    PART 2
+        SECTION HEADER + COURSES GRID
+===================================================== */
+
+
+/* =====================================================
+                SECTION HEADER
+===================================================== */
+
+.section-heading{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-end;
+
+    gap:30px;
+
+    margin-bottom:45px;
+
+    flex-wrap:wrap;
+
+}
+
+
+/* ===============================
+        TITLE
+=============================== */
+
+.section-title{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+.mini-title{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    width:fit-content;
+
+    padding:8px 16px;
+
+    border-radius:50px;
+
+    background:rgba(51,207,255,.10);
+
+    border:1px solid rgba(51,207,255,.20);
+
+    color:var(--secondary);
+
+    font-size:13px;
+
+    font-weight:800;
+
+    letter-spacing:.4px;
+
+}
+
+.section-title h2{
+
+    color:#fff;
+
+    font-size:38px;
+
+    font-weight:800;
+
+    line-height:1.4;
+
+}
+
+
+/* ===============================
+        COURSES COUNT
+=============================== */
+
+.courses-count{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-width:170px;
+
+    height:56px;
+
+    padding:0 22px;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    -webkit-backdrop-filter:blur(20px);
+
+    color:var(--secondary);
+
+    font-size:14px;
+
+    font-weight:800;
+
+    transition:.35s;
+
+}
+
+.courses-count:hover{
+
+    border-color:rgba(51,207,255,.25);
+
+    transform:translateY(-2px);
+
+}
+
+
+/* =====================================================
+                    COURSES GRID
+===================================================== */
+
+.courses-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+        repeat(auto-fill,minmax(370px,1fr));
+
+    gap:30px;
+
+    align-items:start;
+
+}
+
+
+/* =====================================================
+                GRID ANIMATION
+===================================================== */
+
+.courses-grid>*{
+
+    animation:cardAppear .6s ease both;
+
+}
+
+.courses-grid>*:nth-child(2){
+
+    animation-delay:.08s;
+
+}
+
+.courses-grid>*:nth-child(3){
+
+    animation-delay:.16s;
+
+}
+
+.courses-grid>*:nth-child(4){
+
+    animation-delay:.24s;
+
+}
+
+.courses-grid>*:nth-child(5){
+
+    animation-delay:.32s;
+
+}
+
+.courses-grid>*:nth-child(6){
+
+    animation-delay:.40s;
+
+}
+
+
+/* =====================================================
+                EMPTY STATE
+===================================================== */
+
+.empty-state{
+
+    display:none;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    padding:90px 25px;
+
+    border-radius:28px;
+
+    border:1px dashed rgba(255,255,255,.12);
+
+    background:rgba(255,255,255,.03);
+
+}
+
+.empty-icon{
+
+    width:90px;
+
+    height:90px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin-bottom:22px;
+
+    border-radius:50%;
+
+    background:rgba(255,140,0,.10);
+
+    color:var(--primary);
+
+    font-size:34px;
+
+}
+
+.empty-state h3{
+
+    font-size:30px;
+
+    font-weight:800;
+
+    margin-bottom:12px;
+
+}
+
+.empty-state p{
+
+    max-width:500px;
+
+    color:var(--muted);
+
+    font-size:15px;
+
+    line-height:1.9;
+
+}
+
+
+/* =====================================================
+                    LOADING
+===================================================== */
+
+.loading-box{
+
+    min-height:320px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:18px;
+
+    color:var(--muted);
+
+}
+
+.loading-icon{
+
+    width:70px;
+
+    height:70px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:rgba(51,207,255,.08);
+
+    border:1px solid rgba(51,207,255,.15);
+
+}
+
+.loading-icon i{
+
+    font-size:30px;
+
+    color:var(--secondary);
+
+}
+
+.loading-box span{
+
+    font-size:15px;
+
+    font-weight:700;
+
+}
+
+
+/* =====================================================
+                    ANIMATIONS
+===================================================== */
+
+@keyframes cardAppear{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(35px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+/* =====================================================
+                DASHBOARD.CSS
+                    PART 3
+        COURSE CARD DESIGN
+        IMAGE + BADGES + BODY
+===================================================== */
+
+
+/* =====================================================
+                COURSE CARD
+===================================================== */
+
+.course-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:28px;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.07),
+            rgba(255,255,255,.025)
+        );
+
+    border:
+
+        1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    -webkit-backdrop-filter:blur(20px);
+
+    box-shadow:
+
+        0 20px 50px rgba(0,0,0,.45);
+
+    transition:.45s;
+
+}
+
+
+/* تأثير الإضاءة */
+
+.course-card::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-100%;
+
+    background:
+
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,.12),
+            transparent
+        );
+
+    transform:translateX(-100%);
+
+    transition:.8s;
+
+    pointer-events:none;
+
+}
+
+
+.course-card:hover::after{
+
+    transform:translateX(100%);
+
+}
+
+
+
+.course-card:hover{
+
+    transform:
+
+        translateY(-10px);
+
+    border-color:
+
+        rgba(51,207,255,.30);
+
+    box-shadow:
+
+        0 30px 70px rgba(0,0,0,.60),
+
+        0 0 35px rgba(51,207,255,.08);
+
+}
+
+
+
+/* =====================================================
+                COURSE IMAGE
+===================================================== */
+
+.course-image{
+
+    position:relative;
+
+    width:100%;
+
+    height:250px;
+
+    overflow:hidden;
+
+    background:#0d0d0d;
+
+}
+
+
+
+.course-image img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    transition:.6s;
+
+}
+
+
+
+.course-card:hover 
+.course-image img{
+
+    transform:scale(1.08);
+
+}
+
+
+
+/* طبقة فوق الصورة */
+
+.course-image::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:1;
+
+    background:
+
+        linear-gradient(
+            to top,
+            rgba(5,5,5,.85),
+            transparent 60%
+        );
+
+}
+
+
+/* =====================================================
+                PRICE BADGE
+===================================================== */
+
+.course-price{
+
+    position:absolute;
+
+    left:18px;
+
+    bottom:18px;
+
+    z-index:3;
+
+    padding:9px 16px;
+
+    border-radius:14px;
+
+    font-size:13px;
+
+    font-weight:800;
+
+    backdrop-filter:blur(15px);
+
+    -webkit-backdrop-filter:blur(15px);
+
+    transition:.35s;
+
+}
+
+
+.course-card:hover 
+.course-price{
+
+    transform:
+
+        translateY(-5px);
+
+}
+
+
+/* FREE */
+
+.course-price.free{
+
+    color:#fff;
+
+    background:
+
+        rgba(255,140,0,.18);
+
+    border:
+
+        1px solid rgba(255,140,0,.35);
+
+}
+
+
+/* PAID */
+
+.course-price.paid{
+
+    color:#ffb347;
+
+    background:
+
+        rgba(255,140,0,.16);
+
+    border:
+
+        1px solid rgba(255,140,0,.35);
+
+}
+
+
+/* PURCHASED */
+
+.course-price.purchased{
+
+    color:#33cfff;
+
+    background:
+
+        rgba(51,207,255,.15);
+
+    border:
+
+        1px solid rgba(51,207,255,.35);
+
+}
+
+
+
+/* =====================================================
+                LOCK ICON
+===================================================== */
+
+.course-lock{
+
+    position:absolute;
+
+    top:18px;
+
+    right:18px;
+
+    z-index:4;
+
+    width:52px;
+
+    height:52px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+
+    border-radius:18px;
+
+
+    background:
+
+        rgba(0,0,0,.55);
+
+
+    border:
+
+        1px solid rgba(255,255,255,.12);
+
+
+    color:var(--primary);
+
+
+    font-size:20px;
+
+
+    backdrop-filter:blur(15px);
+
+
+    -webkit-backdrop-filter:blur(15px);
+
+
+    transition:.35s;
+
+}
+
+
+
+.course-card:hover 
+.course-lock{
+
+
+    transform:
+
+        rotate(-8deg)
+        scale(1.08);
+
+
+}
+
+
+
+/* =====================================================
+                COURSE BODY
+===================================================== */
+
+.course-body{
+
+    padding:26px;
+
+}
+
+
+
+/* =====================================================
+                SUBJECT BADGE
+===================================================== */
+
+.course-subject{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:8px 16px;
+
+    margin-bottom:15px;
+
+    border-radius:12px;
+
+
+    background:
+
+        rgba(51,207,255,.10);
+
+
+    border:
+
+        1px solid rgba(51,207,255,.25);
+
+
+    color:
+
+        var(--secondary);
+
+
+    font-size:13px;
+
+
+    font-weight:800;
+
+
+    transition:.35s;
+
+}
+
+
+
+.course-card:hover 
+.course-subject{
+
+    background:
+
+        var(--secondary);
+
+
+    color:#000;
+
+
+}
+
+
+
+/* =====================================================
+                GRADE
+===================================================== */
+
+.course-grade{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    margin-bottom:14px;
+
+    color:#aaa;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+
+
+.course-grade::before{
+
+    content:"";
+
+    width:8px;
+
+    height:8px;
+
+    border-radius:50%;
+
+    background:
+
+        var(--primary);
+
+}
+
+
+
+/* =====================================================
+                TITLE
+===================================================== */
+
+.course-title{
+
+    color:#fff;
+
+    font-size:24px;
+
+    font-weight:800;
+
+    line-height:1.7;
+
+    margin-bottom:14px;
+
+}
+
+
+
+/* =====================================================
+                DESCRIPTION
+===================================================== */
+
+.course-description{
+
+    color:#aaa;
+
+    font-size:14px;
+
+    line-height:2;
+
+    min-height:70px;
+
+    margin-bottom:22px;
+
+}
+/* =====================================================
+                DASHBOARD.CSS
+                    PART 4
+        COURSE STATUS + BUTTONS
+===================================================== */
+
+
+/* =====================================================
+                COURSE STATUS BOX
+===================================================== */
+
+.course-status{
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:16px 18px;
+
+    margin-bottom:22px;
+
+    border-radius:16px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    line-height:1.7;
+
+    transition:.35s;
+
+}
+
+
+.course-status:hover{
+
+    transform:translateY(-3px);
+
+}
+
+
+
+/* =====================================================
+                FREE STATUS
+===================================================== */
+
+
+.course-status.free{
+
+    color:#ffb347;
+
+    background:
+
+        rgba(255,140,0,.10);
+
+    border:
+
+        1px solid rgba(255,140,0,.25);
+
+}
+
+
+.course-status.free i{
+
+    color:var(--primary);
+
+    font-size:18px;
+
+}
+
+
+
+
+/* =====================================================
+                PURCHASED STATUS
+===================================================== */
+
+
+.course-status.purchased{
+
+    color:var(--secondary);
+
+    background:
+
+        rgba(51,207,255,.10);
+
+    border:
+
+        1px solid rgba(51,207,255,.25);
+
+}
+
+
+.course-status.purchased i{
+
+    color:var(--secondary);
+
+    font-size:18px;
+
+}
+
+
+
+/* =====================================================
+                LOCKED STATUS
+===================================================== */
+
+
+.course-status.paid{
+
+    color:#ffb347;
+
+    background:
+
+        rgba(255,140,0,.08);
+
+    border:
+
+        1px solid rgba(255,140,0,.22);
+
+}
+
+
+.course-status.paid i{
+
+    color:var(--primary);
+
+    font-size:18px;
+
+}
+
+
+
+/* =====================================================
+                COURSE BUTTON
+===================================================== */
+
+
+.course-btn{
+
+    position:relative;
+
+    overflow:hidden;
+
+    width:100%;
+
+    height:58px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:18px;
+
+    cursor:pointer;
+
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+
+    color:#fff;
+
+    font-size:15px;
+
+    font-weight:800;
+
+
+    transition:.35s;
+
+}
+
+
+
+/* تأثير اللمعة */
+
+.course-btn::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-120%;
+
+    width:70%;
+
+    height:100%;
+
+
+    background:
+
+        linear-gradient(
+
+            90deg,
+
+            transparent,
+
+            rgba(255,255,255,.35),
+
+            transparent
+
+        );
+
+
+    transition:.7s;
+
+}
+
+
+.course-btn:hover::before{
+
+    left:150%;
+
+}
+
+
+
+.course-btn:hover{
+
+    transform:
+
+        translateY(-4px);
+
+}
+
+
+
+/* =====================================================
+                BUY BUTTON
+===================================================== */
+
+
+.buy-btn{
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #ff9d00,
+
+            #ff6200
+
+        );
+
+
+    box-shadow:
+
+        0 15px 35px
+
+        rgba(255,140,0,.30);
+
+}
+
+
+
+.buy-btn:hover{
+
+
+    box-shadow:
+
+        0 22px 50px
+
+        rgba(255,140,0,.45);
+
+
+}
+
+
+
+/* =====================================================
+                FREE BUTTON
+===================================================== */
+
+
+.free-btn{
+
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #ff8c00,
+
+            #ff6200
+
+        );
+
+
+    box-shadow:
+
+        0 15px 35px
+
+        rgba(255,140,0,.28);
+
+
+}
+
+
+
+.free-btn:hover{
+
+
+    box-shadow:
+
+        0 22px 50px
+
+        rgba(255,140,0,.45);
+
+
+}
+
+
+
+/* =====================================================
+                OPEN BUTTON
+===================================================== */
+
+
+.open-btn{
+
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #33cfff,
+
+            #129cff
+
+        );
+
+
+    box-shadow:
+
+        0 15px 35px
+
+        rgba(51,207,255,.30);
+
+
+}
+
+
+
+.open-btn:hover{
+
+
+    box-shadow:
+
+        0 22px 50px
+
+        rgba(51,207,255,.45);
+
+
+}
+
+
+
+/* =====================================================
+                CARD GLOW BORDER
+===================================================== */
+
+
+.course-card::after{
+
+    pointer-events:none;
+
+}
+
+
+
+.course-card:hover{
+
+    animation:
+
+        cardGlow .8s ease;
+
+}
+
+
+
+@keyframes cardGlow{
+
+
+    0%{
+
+        box-shadow:
+
+        0 20px 50px rgba(0,0,0,.45);
+
+    }
+
+
+    50%{
+
+        box-shadow:
+
+        0 25px 70px
+
+        rgba(51,207,255,.18);
+
+    }
+
+
+    100%{
+
+        box-shadow:
+
+        0 30px 70px rgba(0,0,0,.60);
+
+    }
+
+
+}
+
+
+
+/* =====================================================
+                BUTTON ACTIVE
+===================================================== */
+
+
+.course-btn:active{
+
+    transform:
+
+        scale(.97);
+
+}
+/* =====================================================
+                DASHBOARD.CSS
+                    PART 5
+        LOADING + EMPTY + PREMIUM ANIMATIONS
+===================================================== */
+
+
+/* =====================================================
+                LOADING BOX
+===================================================== */
+
+.loading-box{
+
+    min-height:350px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:20px;
+
+    color:var(--muted);
+
+}
+
+
+.loading-icon{
+
+    width:85px;
+
+    height:85px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+
+    background:
+
+        rgba(51,207,255,.08);
+
+
+    border:
+
+        1px solid rgba(51,207,255,.18);
+
+
+    box-shadow:
+
+        0 0 35px
+
+        rgba(51,207,255,.12);
+
+}
+
+
+.loading-icon i{
+
+    font-size:38px;
+
+    color:var(--secondary);
+
+}
+
+
+
+.loading-box span{
+
+    font-size:15px;
+
+    font-weight:700;
+
+}
+
+
+
+/* =====================================================
+                EMPTY STATE
+===================================================== */
+
+
+.empty-state{
+
+    display:none;
+
+    min-height:350px;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+
+    padding:40px;
+
+
+    border-radius:28px;
+
+
+    background:
+
+        rgba(255,255,255,.04);
+
+
+    border:
+
+        1px solid rgba(255,255,255,.08);
+
+
+    backdrop-filter:
+
+        blur(20px);
+
+
+}
+
+
+.empty-icon{
+
+
+    width:100px;
+
+    height:100px;
+
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+
+    border-radius:50%;
+
+
+    margin-bottom:25px;
+
+
+    background:
+
+        rgba(255,140,0,.12);
+
+
+    border:
+
+        1px solid rgba(255,140,0,.25);
+
+
+}
+
+
+.empty-icon i{
+
+    font-size:42px;
+
+    color:var(--primary);
+
+}
+
+
+
+.empty-state h3{
+
+
+    font-size:28px;
+
+    font-weight:800;
+
+    margin-bottom:12px;
+
+
+}
+
+
+
+.empty-state p{
+
+
+    color:var(--muted);
+
+    font-size:15px;
+
+    line-height:2;
+
+
+}
+
+
+
+/* =====================================================
+            COURSE CARD ENTRANCE
+===================================================== */
+
+
+.course-card{
+
+
+    animation:
+
+        cardShow .6s ease forwards;
+
+
+}
+
+
+
+@keyframes cardShow{
+
+
+    from{
+
+        opacity:0;
+
+        transform:
+
+            translateY(40px);
+
+    }
+
+
+    to{
+
+        opacity:1;
+
+        transform:
+
+            translateY(0);
+
+    }
+
+
+}
+
+
+
+/* =====================================================
+            IMAGE SHINE EFFECT
+===================================================== */
+
+
+.course-image{
+
+    overflow:hidden;
+
+}
+
+
+
+.course-image::after{
+
+
+    content:"";
+
+
+    position:absolute;
+
+
+    top:0;
+
+    left:-120%;
+
+
+    width:80%;
+
+
+    height:100%;
+
+
+    z-index:2;
+
+
+
+    background:
+
+
+        linear-gradient(
+
+            90deg,
+
+            transparent,
+
+            rgba(255,255,255,.15),
+
+            transparent
+
+        );
+
+
+    transition:.8s;
+
+
+}
+
+
+
+.course-card:hover 
+.course-image::after{
+
+
+    left:140%;
+
+
+}
+
+
+
+/* =====================================================
+            FLOATING EFFECT
+===================================================== */
+
+
+.course-card:hover{
+
+
+    transform:
+
+        translateY(-12px);
+
+
+}
+
+
+
+/* =====================================================
+            BADGE ANIMATION
+===================================================== */
+
+
+.course-subject{
+
+
+    animation:
+
+        badgeIn .5s ease;
+
+
+}
+
+
+
+@keyframes badgeIn{
+
+
+    from{
+
+
+        opacity:0;
+
+        transform:
+
+            scale(.8);
+
+
+    }
+
+
+    to{
+
+
+        opacity:1;
+
+        transform:
+
+            scale(1);
+
+
+    }
+
+
+}
+
+
+
+/* =====================================================
+            PRICE PULSE
+===================================================== */
+
+
+.course-price{
+
+
+    animation:
+
+        pricePulse 3s infinite;
+
+
+}
+
+
+
+@keyframes pricePulse{
+
+
+    0%,100%{
+
+
+        box-shadow:
+
+        0 0 0
+
+        rgba(255,140,0,0);
+
+
+    }
+
+
+    50%{
+
+
+        box-shadow:
+
+        0 0 20px
+
+        rgba(255,140,0,.25);
+
+
+    }
+
+
+}
+
+
+
+/* =====================================================
+            SMOOTH TRANSITIONS
+===================================================== */
+
+
+.course-card,
+
+.course-btn,
+
+.course-price,
+
+.course-status,
+
+.course-subject{
+
+    will-change:transform;
+
+}
+
+
+
+/* =====================================================
+            GLASS OVERLAY
+===================================================== */
+
+
+.course-card::before{
+
+
+    content:"";
+
+
+    position:absolute;
+
+
+    inset:0;
+
+
+    background:
+
+
+        linear-gradient(
+
+            135deg,
+
+            rgba(255,255,255,.08),
+
+            transparent 40%
+
+        );
+
+
+    opacity:0;
+
+
+    transition:.4s;
+
+
+    pointer-events:none;
+
+
+}
+
+
+
+.course-card:hover::before{
+
+
+    opacity:1;
+
+
+}
+/* =====================================================
+        DASHBOARD.CSS
+        PART 6
+        RESPONSIVE + MOBILE DESIGN
+===================================================== */
+
+
+/* =====================================================
+                    TABLET
+===================================================== */
+
+@media(max-width:1100px){
+
+
+    .dashboard-container{
+
+        width:94%;
+
+    }
+
+
+
+    .welcome-box{
+
+        padding:35px;
+
+    }
+
+
+
+    .stats-grid{
+
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+
+    }
+
+
+
+    .courses-grid{
+
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+
+    }
+
+
+
+    .profile-card{
+
+
+        flex-direction:column;
+
+        text-align:center;
+
+        align-items:center;
+
+
+    }
+
+
+
+    .profile-info{
+
+        align-items:center;
+
+    }
+
+
+
+}
+
+
+
+
+
+
+/* =====================================================
+                    MOBILE
+===================================================== */
+
+
+@media(max-width:768px){
+
+
+
+    body{
+
+        overflow-x:hidden;
+
+    }
+
+
+
+
+
+    .dashboard-container{
+
+
+        width:94%;
+
+        margin-top:25px;
+
+
+    }
+
+
+
+
+
+    /* HEADER */
+
+
+    .dashboard-header{
+
+
+        padding:20px;
+
+        border-radius:22px;
+
+        flex-direction:column;
+
+        gap:20px;
+
+        text-align:center;
+
+
+    }
+
+
+
+
+
+    .dashboard-title{
+
+
+        font-size:25px;
+
+
+    }
+
+
+
+
+
+
+
+    .dashboard-subtitle{
+
+
+        font-size:13px;
+
+
+    }
+
+
+
+
+
+
+    /* WELCOME */
+
+
+    .welcome-box{
+
+
+        padding:25px 18px;
+
+        border-radius:22px;
+
+        text-align:center;
+
+
+    }
+
+
+
+
+    .welcome-box h1{
+
+
+        font-size:25px;
+
+
+    }
+
+
+
+
+
+    .welcome-box p{
+
+
+        font-size:14px;
+
+
+    }
+
+
+
+
+
+
+    /* STATS */
+
+
+    .stats-grid{
+
+
+        grid-template-columns:1fr;
+
+
+        gap:15px;
+
+
+    }
+
+
+
+
+
+
+
+    .stat-card{
+
+
+        min-height:130px;
+
+        padding:22px;
+
+
+    }
+
+
+
+
+
+
+    .stat-number{
+
+
+        font-size:32px;
+
+
+    }
+
+
+
+
+
+
+
+    /* COURSES */
+
+
+    .section-title{
+
+
+        font-size:22px;
+
+
+    }
+
+
+
+
+
+    .courses-grid{
+
+
+        grid-template-columns:1fr;
+
+
+    }
+
+
+
+
+
+
+
+    .course-card{
+
+
+        border-radius:22px;
+
+
+    }
+
+
+
+
+
+
+
+    .course-image{
+
+
+        height:190px;
+
+
+    }
+
+
+
+
+
+    .course-info{
+
+
+        padding:18px;
+
+
+    }
+
+
+
+
+
+
+
+    .course-title{
+
+
+        font-size:18px;
+
+
+    }
+
+
+
+
+
+
+
+
+    /* PROFILE */
+
+
+
+    .profile-card{
+
+
+        padding:22px;
+
+
+        border-radius:22px;
+
+
+    }
+
+
+
+
+
+
+    .profile-avatar{
+
+
+        width:90px;
+
+        height:90px;
+
+
+    }
+
+
+
+
+
+    .profile-name{
+
+
+        font-size:22px;
+
+
+    }
+
+
+
+
+
+
+
+
+    /* BUTTONS */
+
+
+    .dashboard-btn{
+
+
+        width:100%;
+
+
+        height:48px;
+
+
+    }
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+                    SMALL MOBILE
+===================================================== */
+
+
+@media(max-width:420px){
+
+
+
+    .dashboard-container{
+
+
+        width:92%;
+
+
+    }
+
+
+
+
+
+
+    .dashboard-title{
+
+
+        font-size:22px;
+
+
+    }
+
+
+
+
+
+
+    .welcome-box h1{
+
+
+        font-size:22px;
+
+
+    }
+
+
+
+
+
+
+    .stat-card{
+
+
+        padding:18px;
+
+
+    }
+
+
+
+
+
+
+
+    .stat-number{
+
+
+        font-size:28px;
+
+
+    }
+
+
+
+
+
+
+    .course-image{
+
+
+        height:160px;
+
+
+    }
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+              ANIMATION EFFECTS
+===================================================== */
+
+
+.dashboard-container>*{
+
+
+    animation:
+
+    fadeUp .6s ease both;
+
+
+}
+
+
+
+
+
+
+@keyframes fadeUp{
+
+
+    from{
+
+
+        opacity:0;
+
+        transform:translateY(25px);
+
+
+    }
+
+
+
+    to{
+
+
+        opacity:1;
+
+        transform:translateY(0);
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+              GLASS SCROLLBAR
+===================================================== */
+
+
+
+::-webkit-scrollbar{
+
+
+    width:8px;
+
+
+}
+
+
+
+
+::-webkit-scrollbar-track{
+
+
+    background:#050505;
+
+
+}
+
+
+
+
+
+::-webkit-scrollbar-thumb{
+
+
+    background:
+
+    linear-gradient(
+
+        var(--primary),
+
+        var(--secondary)
+
+    );
+
+
+    border-radius:20px;
+
+
+}
+
+
+
+
+
+::-webkit-scrollbar-thumb:hover{
+
+
+    opacity:.8;
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+              FINAL POLISH
+===================================================== */
+
+
+button,
+a{
+
+
+    -webkit-tap-highlight-color:transparent;
+
+
+}
+
+
+
+
+
+img{
+
+
+    max-width:100%;
+
+    display:block;
+
+
+}
+
+
+
+
+
+.hidden{
+
+
+    display:none!important;
+
+
+}

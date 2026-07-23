@@ -1,0 +1,2341 @@
+/* =====================================================
+        CHAPTERS.CSS
+        PART 1
+        FOUNDATION + HEADER + SKELETON
+===================================================== */
+
+
+/*======================================================
+                    GOOGLE FONT
+======================================================*/
+
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
+
+
+/*======================================================
+                    VARIABLES
+======================================================*/
+
+:root{
+
+    --primary:#ff8c00;
+    --primary-dark:#ff6a00;
+
+    --secondary:#33cfff;
+
+    --background:#050505;
+
+    --surface:#0f1012;
+
+    --surface-2:#16181d;
+
+    --card:rgba(255,255,255,.045);
+
+    --card-hover:rgba(255,255,255,.07);
+
+    --border:rgba(255,255,255,.08);
+
+    --white:#ffffff;
+
+    --text:#ededed;
+
+    --muted:#a9adb5;
+
+    --success:#2dd36f;
+
+    --danger:#ff4d67;
+
+    --shadow:
+
+    0 25px 60px rgba(0,0,0,.35);
+
+}
+
+
+/*======================================================
+                    RESET
+======================================================*/
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+    font-family:"Tajawal",sans-serif;
+
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    background:var(--background);
+
+    color:var(--text);
+
+    overflow-x:hidden;
+
+    min-height:100vh;
+
+}
+
+
+/*======================================================
+                    BACKGROUND
+======================================================*/
+
+.background{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:-100;
+
+    overflow:hidden;
+
+    background:
+
+    radial-gradient(circle at top right,
+    rgba(255,140,0,.16),
+    transparent 35%),
+
+    radial-gradient(circle at bottom left,
+    rgba(51,207,255,.10),
+    transparent 40%),
+
+    linear-gradient(
+        180deg,
+        #050505,
+        #080808,
+        #050505);
+
+}
+
+
+.background::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:650px;
+
+    height:650px;
+
+    right:-220px;
+
+    top:-220px;
+
+    border-radius:50%;
+
+    background:
+
+    rgba(255,140,0,.12);
+
+    filter:blur(140px);
+
+}
+
+
+.background::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:600px;
+
+    height:600px;
+
+    left:-220px;
+
+    bottom:-220px;
+
+    border-radius:50%;
+
+    background:
+
+    rgba(51,207,255,.08);
+
+    filter:blur(150px);
+
+}
+
+
+/*======================================================
+                    PAGE
+======================================================*/
+
+.chapters-page{
+
+    width:min(92%,1280px);
+
+    margin:auto;
+
+    padding-top:45px;
+
+    padding-bottom:80px;
+
+}
+
+
+/*======================================================
+                    HEADER
+======================================================*/
+
+.chapter-header{
+
+    margin-bottom:45px;
+
+    padding:35px;
+
+    border-radius:30px;
+
+    background:
+
+    linear-gradient(
+        180deg,
+        rgba(255,255,255,.045),
+        rgba(255,255,255,.025)
+    );
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(18px);
+
+    box-shadow:var(--shadow);
+
+}
+
+
+.chapter-header h1{
+
+    font-size:34px;
+
+    font-weight:900;
+
+    color:#fff;
+
+    line-height:1.5;
+
+    margin-bottom:12px;
+
+}
+
+
+.chapter-header p{
+
+    font-size:16px;
+
+    color:var(--muted);
+
+    line-height:2;
+
+    max-width:700px;
+
+}
+
+
+/*======================================================
+                    SECTION TITLE
+======================================================*/
+
+.section-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    margin-bottom:35px;
+
+}
+
+
+.section-title i{
+
+    width:58px;
+
+    height:58px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:
+
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-dark)
+    );
+
+    color:white;
+
+    font-size:22px;
+
+    box-shadow:
+
+    0 15px 35px rgba(255,140,0,.28);
+
+}
+
+
+.section-title h2{
+
+    font-size:28px;
+
+    font-weight:900;
+
+    color:white;
+
+}
+
+
+/*======================================================
+                    GRID
+======================================================*/
+
+.chapters-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(auto-fill,minmax(360px,1fr));
+
+    gap:28px;
+
+}
+
+
+/*======================================================
+                SKELETON LOADING
+======================================================*/
+
+.loading-box{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(auto-fill,minmax(360px,1fr));
+
+    gap:28px;
+
+}
+
+
+.loading-card{
+
+    height:290px;
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+    position:relative;
+
+    border:1px solid rgba(255,255,255,.06);
+
+    background:
+
+    rgba(255,255,255,.04);
+
+}
+
+
+.loading-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+
+    linear-gradient(
+
+        90deg,
+
+        transparent,
+
+        rgba(255,255,255,.08),
+
+        transparent
+
+    );
+
+    animation:skeleton 1.2s infinite;
+
+}
+
+
+@keyframes skeleton{
+
+    from{
+
+        transform:translateX(-100%);
+
+    }
+
+    to{
+
+        transform:translateX(100%);
+
+    }
+
+}
+
+
+/*======================================================
+                    UTILITIES
+======================================================*/
+
+.hidden{
+
+    display:none !important;
+
+}
+
+a{
+
+    text-decoration:none;
+
+}
+
+button{
+
+    font-family:inherit;
+
+}
+
+img{
+
+    display:block;
+
+    max-width:100%;
+
+}
+/* =====================================================
+        CHAPTERS.CSS
+        PART 2
+        PREMIUM CHAPTER CARD
+===================================================== */
+
+
+/*======================================================
+                    CARD
+======================================================*/
+
+.chapter-card{
+
+    position:relative;
+
+    display:flex;
+
+    flex-direction:column;
+
+    min-height:330px;
+
+    padding:28px;
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+    background:
+    linear-gradient(
+        180deg,
+        rgba(255,255,255,.05),
+        rgba(255,255,255,.025)
+    );
+
+    border:1px solid rgba(255,255,255,.07);
+
+    backdrop-filter:blur(22px);
+
+    -webkit-backdrop-filter:blur(22px);
+
+    box-shadow:
+
+    0 20px 45px rgba(0,0,0,.35);
+
+    transition:
+
+    .35s ease;
+
+}
+
+
+/* Glow */
+
+.chapter-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:220px;
+
+    height:220px;
+
+    top:-120px;
+
+    left:-120px;
+
+    border-radius:50%;
+
+    background:
+
+    rgba(255,140,0,.10);
+
+    filter:blur(70px);
+
+}
+
+.chapter-card::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+
+    height:180px;
+
+    bottom:-80px;
+
+    right:-80px;
+
+    border-radius:50%;
+
+    background:
+
+    rgba(51,207,255,.08);
+
+    filter:blur(60px);
+
+}
+
+
+/*======================================================
+                    HOVER
+======================================================*/
+
+.chapter-card:hover{
+
+    transform:
+
+    translateY(-10px);
+
+    border-color:
+
+    rgba(255,140,0,.30);
+
+    background:
+
+    rgba(255,255,255,.06);
+
+    box-shadow:
+
+    0 28px 70px rgba(255,140,0,.18);
+
+}
+
+
+/*======================================================
+                    TOP
+======================================================*/
+
+.chapter-top{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:18px;
+
+    margin-bottom:22px;
+
+}
+
+
+/*======================================================
+                    NUMBER
+======================================================*/
+
+.chapter-number{
+
+    width:70px;
+
+    height:70px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:22px;
+
+    background:
+
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-dark)
+    );
+
+    color:#fff;
+
+    font-size:26px;
+
+    font-weight:900;
+
+    box-shadow:
+
+    0 12px 30px rgba(255,140,0,.35);
+
+}
+
+
+/*======================================================
+                    INFO
+======================================================*/
+
+.chapter-info{
+
+    flex:1;
+
+}
+
+.chapter-title{
+
+    font-size:24px;
+
+    font-weight:800;
+
+    line-height:1.6;
+
+    color:white;
+
+    margin-bottom:10px;
+
+}
+
+.chapter-description{
+
+    color:var(--muted);
+
+    font-size:15px;
+
+    line-height:1.9;
+
+    display:-webkit-box;
+
+    -webkit-line-clamp:2;
+
+    -webkit-box-orient:vertical;
+
+    overflow:hidden;
+
+}
+
+
+/*======================================================
+                    DIVIDER
+======================================================*/
+
+.chapter-divider{
+
+    margin:25px 0;
+
+    height:1px;
+
+    background:
+
+    rgba(255,255,255,.08);
+
+}
+
+
+/*======================================================
+                    STATS
+======================================================*/
+
+.chapter-details{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:14px;
+
+    margin-bottom:28px;
+
+}
+
+.detail-item{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    padding:14px;
+
+    border-radius:18px;
+
+    background:
+
+    rgba(255,255,255,.05);
+
+    border:
+
+    1px solid rgba(255,255,255,.07);
+
+    transition:.3s;
+
+}
+
+.detail-item:hover{
+
+    background:
+
+    rgba(255,255,255,.08);
+
+}
+
+.detail-item i{
+
+    color:var(--primary);
+
+    font-size:18px;
+
+}
+
+.detail-item span{
+
+    color:white;
+
+    font-weight:700;
+
+    font-size:15px;
+
+}
+
+
+/*======================================================
+                    BUTTON
+======================================================*/
+
+.chapter-btn{
+
+    margin-top:auto;
+
+    width:100%;
+
+    height:58px;
+
+    border:none;
+
+    border-radius:18px;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:12px;
+
+    font-size:16px;
+
+    font-weight:800;
+
+    color:white;
+
+    background:
+
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-dark)
+    );
+
+    transition:.3s;
+
+    box-shadow:
+
+    0 15px 35px rgba(255,140,0,.28);
+
+}
+
+.chapter-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+
+    0 20px 40px rgba(255,140,0,.45);
+
+}
+
+.chapter-btn i{
+
+    font-size:18px;
+
+}
+
+
+/*======================================================
+                    BADGE
+======================================================*/
+
+.free-badge{
+
+    position:absolute;
+
+    top:18px;
+
+    left:18px;
+
+    padding:8px 14px;
+
+    border-radius:50px;
+
+    background:
+
+    rgba(51,207,255,.12);
+
+    border:
+
+    1px solid rgba(51,207,255,.25);
+
+    color:var(--secondary);
+
+    font-size:13px;
+
+    font-weight:800;
+
+}
+
+
+/*======================================================
+                ANIMATION PREP
+======================================================*/
+
+.chapter-card{
+
+    opacity:0;
+
+    transform:translateY(30px);
+
+    animation:cardFade .55s forwards;
+
+}
+
+.chapter-card:nth-child(2){
+
+    animation-delay:.08s;
+
+}
+
+.chapter-card:nth-child(3){
+
+    animation-delay:.16s;
+
+}
+
+.chapter-card:nth-child(4){
+
+    animation-delay:.24s;
+
+}
+
+.chapter-card:nth-child(5){
+
+    animation-delay:.32s;
+
+}
+
+.chapter-card:nth-child(6){
+
+    animation-delay:.40s;
+
+}
+
+@keyframes cardFade{
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+/* =====================================================
+        CHAPTERS.CSS
+        PART 3
+===================================================== */
+
+
+/*======================================================
+                    LOADING
+======================================================*/
+
+.loading-box{
+
+    width:100%;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fill,minmax(360px,1fr));
+
+    gap:28px;
+
+}
+
+.loading-card{
+
+    position:relative;
+
+    height:330px;
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+    background:rgba(255,255,255,.04);
+
+    border:1px solid rgba(255,255,255,.05);
+
+}
+
+.loading-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+
+    linear-gradient(
+
+        90deg,
+
+        transparent,
+
+        rgba(255,255,255,.08),
+
+        transparent
+
+    );
+
+    animation:skeleton 1.2s infinite linear;
+
+}
+
+@keyframes skeleton{
+
+    from{
+
+        transform:translateX(-100%);
+
+    }
+
+    to{
+
+        transform:translateX(100%);
+
+    }
+
+}
+
+
+
+/*======================================================
+                    ERROR
+======================================================*/
+
+.error-box{
+
+    width:100%;
+
+    min-height:70vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.error-card{
+
+    width:100%;
+
+    max-width:620px;
+
+    padding:45px;
+
+    text-align:center;
+
+    border-radius:32px;
+
+    background:
+
+    linear-gradient(
+
+        180deg,
+
+        rgba(255,255,255,.05),
+
+        rgba(255,255,255,.03)
+
+    );
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(25px);
+
+    box-shadow:
+
+    0 30px 70px rgba(0,0,0,.35);
+
+}
+
+.error-card i{
+
+    width:90px;
+
+    height:90px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin:auto;
+
+    margin-bottom:25px;
+
+    border-radius:25px;
+
+    font-size:38px;
+
+    color:white;
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        var(--primary),
+
+        var(--primary-dark)
+
+    );
+
+}
+
+.error-card h2{
+
+    font-size:32px;
+
+    font-weight:900;
+
+    margin-bottom:15px;
+
+}
+
+.error-card p{
+
+    color:var(--muted);
+
+    line-height:2;
+
+    font-size:16px;
+
+    margin-bottom:35px;
+
+}
+
+.error-card a{
+
+    display:inline-flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:12px;
+
+    height:55px;
+
+    padding:0 28px;
+
+    border-radius:18px;
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        var(--primary),
+
+        var(--primary-dark)
+
+    );
+
+    color:white;
+
+    font-weight:800;
+
+    transition:.3s;
+
+}
+
+.error-card a:hover{
+
+    transform:translateY(-4px);
+
+}
+
+
+
+/*======================================================
+                    EMPTY
+======================================================*/
+
+.empty-content{
+
+    width:100%;
+
+    min-height:350px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    border-radius:28px;
+
+    background:
+
+    linear-gradient(
+
+        180deg,
+
+        rgba(255,255,255,.04),
+
+        rgba(255,255,255,.02)
+
+    );
+
+    border:1px solid rgba(255,255,255,.08);
+
+}
+
+.empty-content i{
+
+    font-size:60px;
+
+    color:var(--primary);
+
+    margin-bottom:20px;
+
+}
+
+.empty-content h3{
+
+    font-size:30px;
+
+    margin-bottom:12px;
+
+}
+
+.empty-content p{
+
+    color:var(--muted);
+
+    line-height:2;
+
+    max-width:500px;
+
+}
+
+
+
+/*======================================================
+                    RESPONSIVE
+======================================================*/
+
+@media(max-width:1000px){
+
+    .chapters-grid{
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:700px){
+
+    .chapter-header{
+
+        padding:28px;
+
+    }
+
+    .chapter-header h1{
+
+        font-size:28px;
+
+    }
+
+    .chapter-header p{
+
+        font-size:15px;
+
+    }
+
+    .section-title h2{
+
+        font-size:24px;
+
+    }
+
+    .chapters-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .chapter-card{
+
+        min-height:310px;
+
+        padding:24px;
+
+    }
+
+    .chapter-title{
+
+        font-size:22px;
+
+    }
+
+    .chapter-btn{
+
+        height:54px;
+
+    }
+
+}
+
+@media(max-width:500px){
+
+    .chapters-page{
+
+        width:94%;
+
+    }
+
+    .chapter-number{
+
+        width:60px;
+
+        height:60px;
+
+        font-size:22px;
+
+    }
+
+    .detail-item{
+
+        padding:12px;
+
+    }
+
+}
+
+
+
+/*======================================================
+                    SCROLLBAR
+======================================================*/
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#050505;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:
+
+    linear-gradient(
+
+        var(--primary),
+
+        var(--secondary)
+
+    );
+
+    border-radius:20px;
+
+}
+/* =====================================================
+        CHAPTERS.CSS
+        PART 4
+        PREMIUM EFFECTS
+===================================================== */
+
+
+/*======================================================
+                    CARD BORDER EFFECT
+======================================================*/
+
+.chapter-card{
+
+    isolation:isolate;
+
+}
+
+.chapter-card:hover::before{
+
+    opacity:1;
+
+}
+
+.chapter-card::before{
+
+    transition:.45s;
+
+    opacity:.8;
+
+}
+
+.chapter-card::after{
+
+    transition:.45s;
+
+}
+
+.chapter-card:hover::after{
+
+    transform:scale(1.2);
+
+}
+
+
+
+/*======================================================
+                    TOP BAR
+======================================================*/
+
+.chapter-top{
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+
+
+/*======================================================
+                    TITLE
+======================================================*/
+
+.chapter-title{
+
+    transition:.35s;
+
+}
+
+.chapter-card:hover .chapter-title{
+
+    color:#ffffff;
+
+    letter-spacing:.3px;
+
+}
+
+
+
+/*======================================================
+                    DESCRIPTION
+======================================================*/
+
+.chapter-description{
+
+    min-height:58px;
+
+    transition:.35s;
+
+}
+
+.chapter-card:hover .chapter-description{
+
+    color:#d8d8d8;
+
+}
+
+
+
+/*======================================================
+                    STATS
+======================================================*/
+
+.chapter-details{
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.detail-item{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.detail-item::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        rgba(255,140,0,.10),
+
+        transparent
+
+    );
+
+    opacity:0;
+
+    transition:.35s;
+
+}
+
+.detail-item:hover::before{
+
+    opacity:1;
+
+}
+
+.detail-item:hover{
+
+    transform:translateY(-3px);
+
+}
+
+.detail-item i{
+
+    transition:.35s;
+
+}
+
+.detail-item:hover i{
+
+    transform:scale(1.15);
+
+}
+
+
+
+/*======================================================
+                    BUTTON
+======================================================*/
+
+.chapter-btn{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.chapter-btn::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:-120%;
+
+    top:0;
+
+    width:80%;
+
+    height:100%;
+
+    background:
+
+    linear-gradient(
+
+        90deg,
+
+        transparent,
+
+        rgba(255,255,255,.30),
+
+        transparent
+
+    );
+
+    transition:.7s;
+
+}
+
+.chapter-btn:hover::before{
+
+    left:120%;
+
+}
+
+.chapter-btn:active{
+
+    transform:scale(.98);
+
+}
+
+
+
+/*======================================================
+                    BADGE
+======================================================*/
+
+.free-badge{
+
+    box-shadow:
+
+    0 8px 20px rgba(51,207,255,.18);
+
+}
+
+
+
+/*======================================================
+                    FOCUS
+======================================================*/
+
+.chapter-btn:focus{
+
+    outline:none;
+
+    box-shadow:
+
+    0 0 0 4px rgba(255,140,0,.18),
+
+    0 15px 35px rgba(255,140,0,.35);
+
+}
+
+
+
+/*======================================================
+                    FADE
+======================================================*/
+
+.chapter-card{
+
+    animation:cardShow .55s ease forwards;
+
+}
+
+@keyframes cardShow{
+
+    from{
+
+        opacity:0;
+
+        transform:
+
+        translateY(35px)
+
+        scale(.98);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+
+        translateY(0)
+
+        scale(1);
+
+    }
+
+}
+
+
+
+/*======================================================
+                    DELAY
+======================================================*/
+
+.chapter-card:nth-child(1){animation-delay:.05s;}
+.chapter-card:nth-child(2){animation-delay:.10s;}
+.chapter-card:nth-child(3){animation-delay:.15s;}
+.chapter-card:nth-child(4){animation-delay:.20s;}
+.chapter-card:nth-child(5){animation-delay:.25s;}
+.chapter-card:nth-child(6){animation-delay:.30s;}
+.chapter-card:nth-child(7){animation-delay:.35s;}
+.chapter-card:nth-child(8){animation-delay:.40s;}
+.chapter-card:nth-child(9){animation-delay:.45s;}
+.chapter-card:nth-child(10){animation-delay:.50s;}
+
+/* =====================================================
+        CHAPTERS.CSS
+        PART 5
+        PREMIUM UI IMPROVEMENTS
+===================================================== */
+
+
+/*======================================================
+                    GLASS EFFECT
+======================================================*/
+
+.chapter-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.chapter-card .glass-circle{
+
+    position:absolute;
+
+    border-radius:50%;
+
+    filter:blur(70px);
+
+    pointer-events:none;
+
+}
+
+.chapter-card .glass-circle.orange{
+
+    width:180px;
+
+    height:180px;
+
+    top:-80px;
+
+    left:-80px;
+
+    background:rgba(255,140,0,.08);
+
+}
+
+.chapter-card .glass-circle.blue{
+
+    width:140px;
+
+    height:140px;
+
+    right:-60px;
+
+    bottom:-60px;
+
+    background:rgba(51,207,255,.07);
+
+}
+
+
+/*======================================================
+                    BUTTON ICON
+======================================================*/
+
+.chapter-btn i{
+
+    transition:.35s;
+
+}
+
+.chapter-btn:hover i{
+
+    transform:translateX(-6px);
+
+}
+
+
+/*======================================================
+                    CARD SHADOW
+======================================================*/
+
+.chapter-card:hover{
+
+    box-shadow:
+
+    0 20px 45px rgba(0,0,0,.45),
+
+    0 0 0 1px rgba(255,140,0,.15),
+
+    0 0 35px rgba(255,140,0,.12);
+
+}
+
+
+/*======================================================
+                    HEADER
+======================================================*/
+
+.chapter-header{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.chapter-header::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:260px;
+
+    height:260px;
+
+    border-radius:50%;
+
+    top:-140px;
+
+    left:-120px;
+
+    background:
+
+    rgba(255,140,0,.08);
+
+    filter:blur(80px);
+
+}
+
+.chapter-header::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+
+    height:180px;
+
+    right:-70px;
+
+    bottom:-70px;
+
+    border-radius:50%;
+
+    background:
+
+    rgba(51,207,255,.06);
+
+    filter:blur(70px);
+
+}
+
+
+/*======================================================
+                    LOADING
+======================================================*/
+
+.loading-card{
+
+    animation:
+
+    pulse 1.3s infinite ease-in-out;
+
+}
+
+@keyframes pulse{
+
+    0%{
+
+        opacity:.55;
+
+    }
+
+    50%{
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        opacity:.55;
+
+    }
+
+}
+
+
+/*======================================================
+                    EMPTY
+======================================================*/
+
+.empty-content{
+
+    transition:.35s;
+
+}
+
+.empty-content:hover{
+
+    border-color:
+
+    rgba(255,140,0,.18);
+
+}
+
+
+/*======================================================
+                    MOBILE
+======================================================*/
+
+@media(max-width:900px){
+
+    .chapter-card{
+
+        border-radius:24px;
+
+    }
+
+    .chapter-number{
+
+        width:64px;
+
+        height:64px;
+
+        font-size:24px;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .chapter-header{
+
+        padding:24px;
+
+    }
+
+    .chapter-header h1{
+
+        font-size:26px;
+
+    }
+
+    .chapter-header p{
+
+        font-size:14px;
+
+    }
+
+    .section-title{
+
+        margin-bottom:25px;
+
+    }
+
+    .section-title h2{
+
+        font-size:22px;
+
+    }
+
+    .section-title i{
+
+        width:50px;
+
+        height:50px;
+
+        font-size:20px;
+
+    }
+
+    .chapter-card{
+
+        padding:22px;
+
+        min-height:290px;
+
+    }
+
+    .chapter-title{
+
+        font-size:20px;
+
+    }
+
+    .chapter-description{
+
+        font-size:14px;
+
+    }
+
+    .chapter-btn{
+
+        height:52px;
+
+        font-size:15px;
+
+    }
+
+}
+
+
+/*======================================================
+                    SCROLLBAR
+======================================================*/
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#050505;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    border-radius:20px;
+
+    background:
+
+    linear-gradient(
+
+        var(--primary),
+
+        var(--secondary)
+
+    );
+
+}
+/* =====================================================
+        CHAPTERS.CSS
+        PART 6
+        FINAL POLISH
+===================================================== */
+
+
+/*======================================================
+                    SELECTION
+======================================================*/
+
+::selection{
+
+    background:rgba(255,140,0,.35);
+
+    color:#fff;
+
+}
+
+
+/*======================================================
+                    LINKS
+======================================================*/
+
+a{
+
+    color:inherit;
+
+    text-decoration:none;
+
+}
+
+button{
+
+    font-family:inherit;
+
+}
+
+
+/*======================================================
+                    IMAGE RESET
+======================================================*/
+
+img{
+
+    display:block;
+
+    max-width:100%;
+
+}
+
+
+/*======================================================
+                SMOOTH TRANSITIONS
+======================================================*/
+
+.chapter-card,
+.chapter-btn,
+.detail-item,
+.free-badge,
+.chapter-number,
+.section-title i{
+
+    transition:
+
+    .35s ease;
+
+}
+
+
+/*======================================================
+                BUTTON ACTIVE
+======================================================*/
+
+.chapter-btn:active{
+
+    transform:scale(.98);
+
+}
+
+
+/*======================================================
+                BUTTON FOCUS
+======================================================*/
+
+.chapter-btn:focus{
+
+    outline:none;
+
+    box-shadow:
+
+    0 0 0 4px rgba(255,140,0,.20),
+
+    0 15px 35px rgba(255,140,0,.35);
+
+}
+
+
+/*======================================================
+                ICON ANIMATION
+======================================================*/
+
+.chapter-btn:hover i{
+
+    transform:translateX(-5px);
+
+}
+
+.detail-item:hover i{
+
+    transform:scale(1.15);
+
+}
+
+
+/*======================================================
+                NUMBER EFFECT
+======================================================*/
+
+.chapter-card:hover .chapter-number{
+
+    transform:
+
+    rotate(-6deg)
+
+    scale(1.05);
+
+}
+
+
+/*======================================================
+                HEADER EFFECT
+======================================================*/
+
+.chapter-header{
+
+    transition:.4s;
+
+}
+
+.chapter-header:hover{
+
+    border-color:
+
+    rgba(255,140,0,.18);
+
+}
+
+
+/*======================================================
+                TITLE EFFECT
+======================================================*/
+
+.chapter-card:hover .chapter-title{
+
+    color:#fff;
+
+}
+
+.chapter-card:hover .chapter-description{
+
+    color:#d8d8d8;
+
+}
+
+
+/*======================================================
+                LOADING FADE
+======================================================*/
+
+.loading-box{
+
+    animation:
+
+    loadingFade .5s ease;
+
+}
+
+@keyframes loadingFade{
+
+    from{
+
+        opacity:0;
+
+    }
+
+    to{
+
+        opacity:1;
+
+    }
+
+}
+
+
+/*======================================================
+                ERROR ANIMATION
+======================================================*/
+
+.error-card{
+
+    animation:
+
+    errorPop .45s ease;
+
+}
+
+@keyframes errorPop{
+
+    from{
+
+        opacity:0;
+
+        transform:
+
+        translateY(30px)
+
+        scale(.96);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+
+        translateY(0)
+
+        scale(1);
+
+    }
+
+}
+
+
+/*======================================================
+                EMPTY ANIMATION
+======================================================*/
+
+.empty-content{
+
+    animation:
+
+    fadeEmpty .5s ease;
+
+}
+
+@keyframes fadeEmpty{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(25px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+/*======================================================
+                RESPONSIVE LARGE
+======================================================*/
+
+@media(min-width:1500px){
+
+    .chapters-grid{
+
+        grid-template-columns:
+
+        repeat(3,1fr);
+
+    }
+
+}
+
+
+/*======================================================
+                RESPONSIVE TABLET
+======================================================*/
+
+@media(max-width:900px){
+
+    .chapter-details{
+
+        gap:12px;
+
+    }
+
+}
+
+
+/*======================================================
+                RESPONSIVE MOBILE
+======================================================*/
+
+@media(max-width:500px){
+
+    .chapter-top{
+
+        gap:15px;
+
+    }
+
+    .chapter-number{
+
+        width:56px;
+
+        height:56px;
+
+        font-size:20px;
+
+    }
+
+    .chapter-title{
+
+        font-size:18px;
+
+    }
+
+    .chapter-description{
+
+        font-size:13px;
+
+    }
+
+    .detail-item{
+
+        font-size:13px;
+
+    }
+
+    .chapter-btn{
+
+        font-size:14px;
+
+        height:50px;
+
+    }
+
+}
+
+
+/*======================================================
+                THE END
+======================================================*/

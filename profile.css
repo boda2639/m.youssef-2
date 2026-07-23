@@ -1,0 +1,1523 @@
+/* =================================
+   ROOT VARIABLES
+================================= */
+
+:root{
+
+    --orange:#ff7a00;
+    --orange-light:#ff9d2e;
+    --orange-dark:#d95400;
+
+    --blue:#25b7ff;
+    --green:#00d36f;
+    --red:#ff4f4f;
+
+    --bg:#050505;
+    --bg2:#0b0b0b;
+
+    --card:#111111;
+    --card2:#181818;
+
+    --text:#ffffff;
+    --muted:#9d9d9d;
+
+    --border:rgba(255,255,255,.08);
+
+    --shadow:
+    0 18px 40px rgba(0,0,0,.45);
+
+    --orange-shadow:
+    0 20px 40px rgba(255,122,0,.25);
+
+}
+
+
+
+/* =================================
+   RESET
+================================= */
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+    font-family:"Almarai",sans-serif;
+
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    min-height:100vh;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    overflow-x:hidden;
+
+}
+
+
+
+/* =================================
+   SCROLLBAR
+================================= */
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#090909;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:linear-gradient(
+
+        180deg,
+
+        var(--orange),
+
+        var(--orange-dark)
+
+    );
+
+    border-radius:100px;
+
+}
+
+
+
+/* =================================
+   BACKGROUND
+================================= */
+
+.background{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:-1;
+
+    overflow:hidden;
+
+    background:
+
+    radial-gradient(
+
+        circle at 15% 20%,
+
+        rgba(255,122,0,.18),
+
+        transparent 30%
+
+    ),
+
+    radial-gradient(
+
+        circle at 90% 15%,
+
+        rgba(255,122,0,.12),
+
+        transparent 28%
+
+    ),
+
+    radial-gradient(
+
+        circle at 70% 85%,
+
+        rgba(0,150,255,.06),
+
+        transparent 28%
+
+    ),
+
+    linear-gradient(
+
+        180deg,
+
+        #050505,
+
+        #090909,
+
+        #050505
+
+    );
+
+}
+
+.background::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:550px;
+
+    height:550px;
+
+    right:-180px;
+
+    top:-180px;
+
+    border-radius:50%;
+
+    background:
+
+    radial-gradient(
+
+        circle,
+
+        rgba(255,122,0,.18),
+
+        transparent 70%
+
+    );
+
+    filter:blur(20px);
+
+    animation:floating 8s ease-in-out infinite;
+
+}
+
+
+
+/* =================================
+   ANIMATIONS
+================================= */
+
+@keyframes floating{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-20px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(25px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+
+/* =================================
+   HEADER
+================================= */
+
+.header{
+
+    width:min(92%,1200px);
+
+    height:90px;
+
+    margin:auto;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+
+
+/* =================================
+   LOGO
+================================= */
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    font-size:28px;
+
+    font-weight:800;
+
+}
+
+.logo i{
+
+    font-size:34px;
+
+    color:var(--orange);
+
+    filter:
+
+    drop-shadow(
+
+        0 0 20px
+
+        rgba(255,122,0,.45)
+
+    );
+
+}
+
+
+
+/* =================================
+   BACK BUTTON
+================================= */
+
+.back-btn{
+
+    height:50px;
+
+    padding:0 22px;
+
+    border-radius:16px;
+
+    border:1px solid rgba(255,122,0,.25);
+
+    background:rgba(255,255,255,.03);
+
+    backdrop-filter:blur(15px);
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+}
+
+.back-btn:hover{
+
+    transform:translateY(-4px);
+
+    background:rgba(255,122,0,.12);
+
+    box-shadow:var(--orange-shadow);
+
+}
+
+
+
+/* =================================
+   MAIN
+================================= */
+
+.profile-container{
+
+    width:min(90%,1100px);
+
+    margin:30px auto 70px;
+
+}
+
+
+
+/* =================================
+   PAGE TITLE
+================================= */
+
+.page-title{
+
+    margin-bottom:40px;
+
+    animation:fadeUp .8s;
+
+}
+
+.page-title span{
+
+    display:block;
+
+    color:var(--orange);
+
+    font-size:16px;
+
+    font-weight:800;
+
+    margin-bottom:10px;
+
+}
+
+.page-title h1{
+
+    font-size:48px;
+
+    font-weight:900;
+
+    margin-bottom:10px;
+
+}
+
+.page-title p{
+
+    color:var(--muted);
+
+    font-size:15px;
+
+}
+
+
+
+/* =================================
+   HIDDEN
+================================= */
+
+.hidden{
+
+    display:none!important;
+
+}
+/* =================================
+   PROFILE CARD
+================================= */
+
+.profile-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:30px;
+
+    padding:35px;
+
+    margin-bottom:28px;
+
+    border-radius:30px;
+
+    border:1px solid rgba(255,122,0,.15);
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        rgba(255,122,0,.08),
+
+        rgba(255,255,255,.03)
+
+    );
+
+    backdrop-filter:blur(18px);
+
+    box-shadow:var(--shadow);
+
+    animation:fadeUp .8s;
+
+    transition:.35s;
+
+}
+
+
+
+.profile-card:hover{
+
+    transform:translateY(-6px);
+
+    border-color:rgba(255,122,0,.35);
+
+    box-shadow:
+
+        var(--orange-shadow);
+
+}
+
+
+
+.profile-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:280px;
+
+    height:280px;
+
+    top:-120px;
+
+    left:-120px;
+
+    border-radius:50%;
+
+    background:
+
+    radial-gradient(
+
+        circle,
+
+        rgba(255,122,0,.10),
+
+        transparent 70%
+
+    );
+
+}
+
+
+
+.profile-card::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:220px;
+
+    height:220px;
+
+    bottom:-100px;
+
+    right:-80px;
+
+    border-radius:50%;
+
+    background:
+
+    radial-gradient(
+
+        circle,
+
+        rgba(255,255,255,.04),
+
+        transparent 70%
+
+    );
+
+}
+
+
+
+
+
+/* =================================
+   STUDENT INFO
+================================= */
+
+.student-info{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:28px;
+
+    z-index:2;
+
+}
+
+
+
+
+
+/* =================================
+   AVATAR
+================================= */
+
+.avatar{
+
+    position:relative;
+
+    width:110px;
+
+    height:110px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        #181818,
+
+        #0f0f0f
+
+    );
+
+    border:3px solid var(--orange);
+
+    box-shadow:
+
+        0 0 30px rgba(255,122,0,.20);
+
+    transition:.35s;
+
+}
+
+
+
+.avatar:hover{
+
+    transform:scale(1.05);
+
+}
+
+
+
+.avatar i{
+
+    font-size:45px;
+
+    color:var(--orange);
+
+}
+
+
+
+.avatar::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:6px;
+
+    right:6px;
+
+    width:18px;
+
+    height:18px;
+
+    border-radius:50%;
+
+    background:#00d66d;
+
+    border:3px solid #111;
+
+}
+
+
+
+
+
+/* =================================
+   ACCOUNT TYPE
+================================= */
+
+.account-type{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:9px 16px;
+
+    border-radius:50px;
+
+    background:
+
+    rgba(255,122,0,.12);
+
+    color:var(--orange);
+
+    font-size:13px;
+
+    font-weight:700;
+
+    margin-bottom:12px;
+
+}
+
+.account-type i{
+
+    font-size:13px;
+
+}
+
+
+
+
+
+/* =================================
+   STUDENT NAME
+================================= */
+
+.student-info h2{
+
+    font-size:30px;
+
+    font-weight:900;
+
+    margin-bottom:8px;
+
+}
+
+
+
+.student-info p{
+
+    color:var(--muted);
+
+    font-size:15px;
+
+}
+
+
+
+
+
+/* =================================
+   STATUS BOX
+================================= */
+
+.status-box{
+
+    min-width:210px;
+
+    padding:22px;
+
+    border-radius:20px;
+
+    background:
+
+    rgba(0,210,90,.08);
+
+    border:
+
+    1px solid rgba(0,210,90,.20);
+
+    text-align:center;
+
+    transition:.35s;
+
+}
+
+
+
+.status-box:hover{
+
+    transform:translateY(-4px);
+
+}
+
+
+
+.status-box span{
+
+    display:block;
+
+    color:#9d9d9d;
+
+    font-size:13px;
+
+    margin-bottom:8px;
+
+}
+
+
+
+.status-box strong{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:8px;
+
+    color:#00e676;
+
+    font-size:18px;
+
+    font-weight:800;
+
+}
+
+
+
+.status-box strong i{
+
+    font-size:15px;
+
+}
+/* =================================
+   DATA CARD
+================================= */
+
+.data-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:32px;
+
+    margin-bottom:28px;
+
+    border-radius:28px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        rgba(255,255,255,.04),
+
+        rgba(255,255,255,.02)
+
+    );
+
+    backdrop-filter:blur(20px);
+
+    box-shadow:var(--shadow);
+
+    animation:fadeUp .9s;
+
+}
+
+
+
+.data-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:280px;
+
+    height:280px;
+
+    right:-120px;
+
+    top:-120px;
+
+    border-radius:50%;
+
+    background:
+
+    radial-gradient(
+
+        circle,
+
+        rgba(255,122,0,.08),
+
+        transparent 70%
+
+    );
+
+}
+
+
+
+/* =================================
+   SECTION TITLE
+================================= */
+
+.section-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    margin-bottom:28px;
+
+}
+
+
+
+.section-title i{
+
+    width:58px;
+
+    height:58px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        rgba(255,122,0,.20),
+
+        rgba(255,122,0,.08)
+
+    );
+
+    color:var(--orange);
+
+    font-size:24px;
+
+}
+
+
+
+.section-title h3{
+
+    font-size:24px;
+
+    font-weight:800;
+
+    margin-bottom:5px;
+
+}
+
+
+
+.section-title p{
+
+    color:var(--muted);
+
+    font-size:14px;
+
+}
+
+
+
+/* =================================
+   DATA GRID
+================================= */
+
+.data-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+        repeat(
+
+            auto-fit,
+
+            minmax(280px,1fr)
+
+        );
+
+    gap:18px;
+
+}
+
+
+
+/* =================================
+   DATA ITEM
+================================= */
+
+.data-item{
+
+    position:relative;
+
+    overflow:hidden;
+
+    min-height:95px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    padding:22px;
+
+    border-radius:22px;
+
+    border:1px solid rgba(255,255,255,.07);
+
+    background:
+
+    rgba(255,255,255,.03);
+
+    transition:.35s;
+
+}
+
+
+
+.data-item:hover{
+
+    transform:
+
+        translateY(-6px);
+
+    border-color:
+
+        rgba(255,122,0,.28);
+
+    box-shadow:
+
+        0 18px 35px
+
+        rgba(255,122,0,.15);
+
+}
+
+
+
+.data-item::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:100%;
+
+    height:100%;
+
+    left:-100%;
+
+    top:0;
+
+    background:
+
+    linear-gradient(
+
+        90deg,
+
+        transparent,
+
+        rgba(255,255,255,.06),
+
+        transparent
+
+    );
+
+    transition:.7s;
+
+}
+
+
+
+.data-item:hover::before{
+
+    left:100%;
+
+}
+
+
+
+/* =================================
+   ICON
+================================= */
+
+.data-item i{
+
+    flex-shrink:0;
+
+    width:54px;
+
+    height:54px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:22px;
+
+    color:var(--orange);
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        rgba(255,122,0,.18),
+
+        rgba(255,122,0,.08)
+
+    );
+
+}
+
+
+
+/* =================================
+   TEXT
+================================= */
+
+.data-item div{
+
+    flex:1;
+
+}
+
+
+
+.data-item span{
+
+    display:block;
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-bottom:7px;
+
+}
+
+
+
+.data-item b{
+
+    display:block;
+
+    font-size:17px;
+
+    font-weight:800;
+
+    color:#fff;
+
+    word-break:break-word;
+
+}
+
+
+
+/* =================================
+   SPECIAL ITEMS
+================================= */
+
+.data-item:nth-child(6) i{
+
+    color:#00d26a;
+
+    background:
+
+    rgba(0,210,106,.12);
+
+}
+
+
+
+.data-item:nth-child(7) i{
+
+    color:#25b7ff;
+
+    background:
+
+    rgba(37,183,255,.12);
+
+}
+
+
+
+.data-item:nth-child(8) i{
+
+    color:#ffd24d;
+
+    background:
+
+    rgba(255,210,77,.12);
+
+}
+/* =================================
+   ACTIONS CARD
+================================= */
+
+.actions-card{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+    margin-top:30px;
+
+    animation:fadeUp 1s;
+
+}
+
+
+
+/* =================================
+   ACTION BUTTON
+================================= */
+
+.action-btn{
+
+    position:relative;
+
+    overflow:hidden;
+
+    width:100%;
+
+    min-height:86px;
+
+    padding:20px 24px;
+
+    border:none;
+
+    border-radius:24px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+    color:#fff;
+
+}
+
+
+
+/* =================================
+   LEFT SIDE
+================================= */
+
+.btn-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+
+
+/* =================================
+   ICON
+================================= */
+
+.btn-icon{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:20px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:24px;
+
+    color:#fff;
+
+    background:rgba(255,255,255,.14);
+
+    backdrop-filter:blur(15px);
+
+}
+
+
+
+/* =================================
+   TEXT
+================================= */
+
+.btn-left h4{
+
+    font-size:19px;
+
+    font-weight:800;
+
+    margin-bottom:5px;
+
+}
+
+
+
+.btn-left span{
+
+    display:block;
+
+    font-size:13px;
+
+    color:rgba(255,255,255,.82);
+
+}
+
+
+
+/* =================================
+   RIGHT ARROW
+================================= */
+
+.action-btn>i{
+
+    font-size:20px;
+
+    transition:.35s;
+
+}
+
+
+
+/* =================================
+   SHINE EFFECT
+================================= */
+
+.action-btn::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:-120px;
+
+    top:0;
+
+    width:70px;
+
+    height:100%;
+
+    transform:skewX(-25deg);
+
+    background:rgba(255,255,255,.18);
+
+    transition:.7s;
+
+}
+
+
+
+.action-btn:hover::before{
+
+    left:120%;
+
+}
+
+
+
+/* =================================
+   HOVER
+================================= */
+
+.action-btn:hover{
+
+    transform:
+
+        translateY(-6px)
+
+        scale(1.01);
+
+}
+
+
+
+.action-btn:hover>i{
+
+    transform:translateX(-8px);
+
+}
+
+
+
+/* =================================
+   WALLET
+================================= */
+
+.wallet-btn{
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        #ff9800,
+
+        #ff6b00
+
+    );
+
+    box-shadow:
+
+    0 18px 40px
+
+    rgba(255,152,0,.28);
+
+}
+
+
+
+.wallet-btn:hover{
+
+    box-shadow:
+
+    0 25px 55px
+
+    rgba(255,152,0,.40);
+
+}
+
+
+
+/* =================================
+   COURSES
+================================= */
+
+.course-btn{
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        #1da1ff,
+
+        #005cff
+
+    );
+
+    box-shadow:
+
+    0 18px 40px
+
+    rgba(0,110,255,.28);
+
+}
+
+
+
+.course-btn:hover{
+
+    box-shadow:
+
+    0 25px 55px
+
+    rgba(0,110,255,.40);
+
+}
+
+
+
+/* =================================
+   LOGOUT
+================================= */
+
+.logout-btn{
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        #441414,
+
+        #281010
+
+    );
+
+    border:1px solid
+
+    rgba(255,80,80,.20);
+
+    color:#ff8d8d;
+
+}
+
+
+
+.logout-btn:hover{
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        #5c1d1d,
+
+        #311212
+
+    );
+
+}
+
+
+
+/* =================================
+   ACTIVE CLICK
+================================= */
+
+.action-btn:active{
+
+    transform:
+
+    scale(.97);
+
+}

@@ -1,0 +1,91 @@
+{
+  "cleanUrls": true,
+
+  "trailingSlash": false,
+
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+
+    {
+      "source": "/login",
+      "destination": "/login.html"
+    },
+
+    {
+      "source": "/register",
+      "destination": "/register.html"
+    },
+
+    {
+      "source": "/dashboard",
+      "destination": "/dashboard.html"
+    },
+
+    {
+      "source": "/profile",
+      "destination": "/profile.html"
+    },
+
+    {
+      "source": "/course/:id",
+      "destination": "/chapters.html"
+    },
+
+    {
+      "source": "/lesson/:id",
+      "destination": "/course.html"
+    },
+
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    },
+
+    {
+      "source": "/wallet",
+      "destination": "/wallet.html"
+    },
+
+    {
+      "source": "/privacy",
+      "destination": "/privacy.html"
+    },
+
+    {
+      "source": "/terms",
+      "destination": "/terms.html"
+    },
+
+    {
+      "source": "/:path*",
+      "destination": "/:path*"
+    }
+  ],
+
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    }
+  ]
+}
