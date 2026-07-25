@@ -86,7 +86,7 @@ onAuthStateChanged(
         if (user) {
 
             window.location.replace(
-                "profile.html"
+                "dashboard.html"
             );
 
         }
@@ -591,7 +591,7 @@ loginForm.addEventListener(
 
                     window.location.replace(
 
-                        "profile.html"
+                        "dashboard.html"
 
                     );
 
@@ -605,25 +605,20 @@ loginForm.addEventListener(
 
         catch (error) {
 
-            console.error(error);
+    console.error(error);
 
-            showMessage(
+    showMessage(
+        error.code + " | " + error.message,
+        "error"
+    );
 
-                getFirebaseErrorMessage(
+    setLoading(false);
 
-                    error.code
+          }
 
-                ),
+     }
 
-                "error"
-
-            );
-
-            setLoading(false);
-
-        }
-
-    }
+    
 
 );
 // ========================================
