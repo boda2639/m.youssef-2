@@ -1,141 +1,104 @@
-// ==========================================
+// ======================================================
+// M.YOUSSEF PLATFORM
+// dashboard.js
+// Part 1
+// ======================================================
+
+
+// ======================================================
 // FIREBASE
-// ==========================================
+// ======================================================
 
-
-import {
-
-    auth,
-    db
-
-} from "./firebase.js";
-
+import { auth, db } from "./firebase.js";
 
 import {
 
     onAuthStateChanged,
+
     signOut
 
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-
 import {
 
-    collection,
-    getDocs,
     doc,
+
     getDoc,
+
+    collection,
+
+    getDocs,
+
     updateDoc,
-    arrayUnion
+
+    arrayUnion,
+
+    serverTimestamp
 
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 
-
-// ==========================================
+// ======================================================
 // HTML ELEMENTS
-// ==========================================
-
+// ======================================================
 
 const coursesContainer =
-
-document.getElementById(
-    "coursesContainer"
-);
-
-
+    document.getElementById("coursesContainer");
 
 const loadingBox =
+    document.getElementById("loadingBox");
 
-document.getElementById(
-    "loadingBox"
-);
-
-
-
-const emptyBox =
-
-document.getElementById(
-    "emptyState"
-);
-
-
+const emptyState =
+    document.getElementById("emptyState");
 
 const searchInput =
+    document.getElementById("courseSearch");
 
-document.getElementById(
-    "courseSearch"
-);
-
-
-
-const logoutBtn =
-
-document.getElementById(
-    "logoutBtn"
-);
+const coursesCount =
+    document.getElementById("coursesCount");
 
 
 
-
-// ==========================================
-// USER DATA
-// ==========================================
-
+// ======================================================
+// APP DATA
+// ======================================================
 
 let currentUser = null;
 
-
 let studentData = null;
-
 
 let studentWallet = 0;
 
-
 let purchasedCourses = [];
-
 
 let allCourses = [];
 
 
 
-
-// ==========================================
-// START PAGE
-// ==========================================
-
+// ======================================================
+// AUTH CHECK
+// ======================================================
 
 onAuthStateChanged(
 
     auth,
 
-    async(user)=>{
+    async (user) => {
 
+        if (!user) {
 
-        if(!user){
-
-
-            window.location.replace(
-                "login.html"
-            );
-
+            window.location.replace("login.html");
 
             return;
 
         }
 
-
-
         currentUser = user;
 
-
-
-        await loadStudent();
-
+        await loadStudentData();
 
         await loadCourses();
-
 
     }
 
@@ -143,879 +106,355 @@ onAuthStateChanged(
 
 
 
-
-// ==========================================
+// ======================================================
 // LOAD STUDENT
-// ==========================================
+// ======================================================
+
+async function loadStudentData() {
+
+    try {
+
+        const studentRef =
+
+            doc(
+
+                db,
+
+                "students",
+
+                currentUser.uid
+
+            );
+
+        const studentSnap =
+
+            await getDoc(studentRef);
+
+        if (!studentSnap.exists()) {
+
+            alert("بيانات الطالب غير موجودة.");
+
+            await signOut(auth);
+
+            window.location.replace("login.html");
+
+            return;
+
+        }
+
+        studentData =
+            studentSnap.data();
+
+        studentWallet =
+
+            Number(
+
+                studentData.wallet || 0
+
+            );
+
+        purchasedCourses =
+
+            Array.isArray(
+
+                studentData.purchasedCourses
+
+            )
+
+                ? studentData.purchasedCourses
+
+                : [];
 
 
-async function loadStudent(){
 
+        // =====================================
+        // DEVICE CHECK
+        // =====================================
 
-try{
+        const localDevice =
 
+            localStorage.getItem(
 
-    const studentRef =
+                "deviceId"
 
-    doc(
+            );
 
-        db,
+        if (
 
-        "students",
+            studentData.deviceId &&
 
-        currentUser.uid
+            localDevice &&
 
-    );
+            studentData.deviceId !== localDevice
 
+        ) {
 
+            alert(
 
+                "هذا الحساب مرتبط بجهاز آخر."
 
-    const studentSnap =
+            );
 
-    await getDoc(
-        studentRef
-    );
+            await signOut(auth);
 
+            localStorage.clear();
 
+            window.location.replace(
 
+                "login.html"
 
-    if(!studentSnap.exists()){
+            );
 
+            return;
 
-        alert(
-            "بيانات الطالب غير موجودة."
+        }
+
+        console.log(
+
+            "Student Loaded",
+
+            studentData
+
         );
-
-
-        return;
 
     }
 
+    catch (error) {
 
+        console.error(
 
+            "Student Error:",
 
-    studentData =
+            error
 
-    studentSnap.data();
+        );
 
+        alert(
 
+            "حدث خطأ أثناء تحميل بيانات الطالب."
 
+        );
 
-    studentWallet =
-
-    Number(
-        studentData.wallet || 0
-    );
-
-
-
-
-    purchasedCourses =
-
-
-    Array.isArray(
-
-        studentData.purchasedCourses
-
-    )
-
-
-    ?
-
-
-    studentData.purchasedCourses
-
-
-    :
-
-
-    [];
-
-
+    }
 
 }
 
 
 
-catch(error){
+// ======================================================
+// SHOW LOADING
+// ======================================================
 
+function showLoading() {
 
-    console.error(
+    loadingBox.style.display = "flex";
 
-        "Student Error:",
-
-        error
-
-    );
-
-
-    alert(
-        "حدث خطأ في تحميل بيانات الطالب."
-    );
-
-
-}
-
-
-
-}
-// ==========================================
-// LOAD COURSES
-// ==========================================
-
-
-async function loadCourses(){
-
-
-try{
-
-
-    loadingBox?.classList.remove(
-        "hidden"
-    );
-
-
-    emptyBox?.classList.add(
-        "hidden"
-    );
-
+    emptyState.style.display = "none";
 
     coursesContainer.innerHTML = "";
 
+}
 
 
 
-    const snapshot =
+// ======================================================
+// HIDE LOADING
+// ======================================================
 
-    await getDocs(
+function hideLoading() {
 
-        collection(
+    loadingBox.style.display = "none";
 
-            db,
-
-            "courses"
-
-        )
-
-    );
+}
 
 
 
+// ======================================================
+// READY
+// ======================================================
 
-    allCourses = [];
+console.log(
 
+    "%cDashboard Part 1 Ready",
 
+    "color:#00c853;font-size:15px;font-weight:bold"
 
+);
+// ======================================================
+// LOAD COURSES
+// ======================================================
 
-    snapshot.forEach(
+async function loadCourses() {
 
-        (docSnap)=>{
+    try {
 
+        showLoading();
+
+        allCourses = [];
+
+        const coursesRef =
+
+            collection(
+
+                db,
+
+                "courses"
+
+            );
+
+        const snapshot =
+
+            await getDocs(
+
+                coursesRef
+
+            );
+
+        snapshot.forEach((courseDoc) => {
 
             const data =
 
-            docSnap.data();
-
-
-
+                courseDoc.data();
 
             allCourses.push({
 
-
                 id:
-
-                docSnap.id,
-
-
+                    courseDoc.id,
 
                 title:
-
-
-                data.title ||
-
-
-                data.courseName ||
-
-
-                data.name ||
-
-
-                "بدون عنوان",
-
-
-
+                    data.title ||
+                    data.courseName ||
+                    "بدون عنوان",
 
                 description:
-
-
-                data.description ||
-
-
-                "",
-
-
-
+                    data.description ||
+                    "",
 
                 image:
-
-
-                data.image ||
-
-
-                data.courseImage ||
-
-
-                "",
-
-
-
+                    data.image ||
+                    data.courseImage ||
+                    "",
 
                 subject:
-
-
-                data.subject ||
-
-
-                "عام",
-
-
-
+                    data.subject ||
+                    "عام",
 
                 grade:
+                    data.grade ||
+                    "",
 
-
-                data.grade ||
-
-
-                "",
-
-
-
+                teacher:
+                    data.teacher ||
+                    "مستر محمد يوسف",
 
                 price:
-
-
-                Number(
-
-                    data.price || 0
-
-                ),
-
-
-
+                    Number(
+                        data.price || 0
+                    ),
 
                 order:
+                    Number(
+                        data.order || 0
+                    ),
 
+                lessonsCount:
+                    Number(
+                        data.lessonsCount || 0
+                    ),
 
-                Number(
+                filesCount:
+                    Number(
+                        data.filesCount || 0
+                    ),
 
-                    data.order || 0
+                duration:
+                    data.duration ||
+                    "",
 
-                )
-
-
+                enabled:
+                    data.enabled !== false
 
             });
 
+        });
 
+        allCourses.sort(
 
-        }
+            (a, b) =>
 
-    );
-
-
-
-
-
-
-
-    allCourses.sort(
-
-        (a,b)=>{
-
-
-            return a.order - b.order;
-
-
-        }
-
-    );
-
-
-
-
-
-    loadingBox?.classList.add(
-
-        "hidden"
-
-    );
-
-
-
-
-
-
-    if(allCourses.length === 0){
-
-
-        emptyBox?.classList.remove(
-
-            "hidden"
+                a.order - b.order
 
         );
 
+        hideLoading();
 
-        return;
+        if (coursesCount) {
 
+            coursesCount.textContent =
 
-    }
-
-
-
-
-
-
-
-    renderCourses(
-
-        allCourses
-
-    );
-
-
-
-
-
-}
-
-
-
-catch(error){
-
-
-
-    console.error(
-
-        "Courses Error:",
-
-        error
-
-    );
-
-
-
-    loadingBox?.classList.add(
-
-        "hidden"
-
-    );
-
-
-
-    alert(
-
-        "حدث خطأ أثناء تحميل الكورسات."
-
-    );
-
-
-
-}
-
-
-
-}
-
-
-
-
-
-
-// ==========================================
-// RENDER COURSES
-// ==========================================
-
-
-function renderCourses(courses){
-
-
-
-    coursesContainer.innerHTML = "";
-
-
-
-
-
-    courses.forEach(
-
-        (course)=>{
-
-
-
-            const isFree =
-
-            Number(course.price) <= 0;
-
-
-
-
-
-            const isPurchased =
-
-            purchasedCourses.includes(
-
-                course.id
-
-            );
-
-
-
-
-
-            const card =
-
-            document.createElement(
-
-                "article"
-
-            );
-
-
-
-
-            card.className =
-
-            "course-card";
-
-
-
-
-
-            let priceBadge = "";
-
-            let statusBox = "";
-
-            let buttonText = "";
-
-            let buttonClass = "";
-
-
-
-
-
-            // ==========================
-            // FREE
-            // ==========================
-
-
-            if(isFree){
-
-
-
-                priceBadge = `
-
-                <span class="course-price free">
-
-                    مجاني
-
-                </span>
-
-                `;
-
-
-
-                statusBox = `
-
-                <div class="course-status free">
-
-
-                    <i class="fa-solid fa-circle-check"></i>
-
-
-                    كورس مجاني
-
-
-                </div>
-
-                `;
-
-
-
-                buttonText =
-
-                "ابدأ الكورس";
-
-
-
-                buttonClass =
-
-                "free-btn";
-
-
-
-            }
-
-
-
-            // ==========================
-            // PURCHASED
-            // ==========================
-
-
-            else if(isPurchased){
-
-
-
-                priceBadge = `
-
-                <span class="course-price purchased">
-
-                    تم الشراء
-
-                </span>
-
-                `;
-
-
-
-                statusBox = `
-
-                <div class="course-status purchased">
-
-
-                    <i class="fa-solid fa-lock-open"></i>
-
-
-                    الكورس مفتوح
-
-
-                </div>
-
-                `;
-
-
-
-                buttonText =
-
-                "فتح الكورس";
-
-
-
-                buttonClass =
-
-                "open-btn";
-
-
-
-            }
-
-
-
-
-            // ==========================
-            // LOCKED
-            // ==========================
-
-
-            else {
-
-
-
-                priceBadge = `
-
-                <span class="course-price paid">
-
-                    ${course.price} جنيه
-
-                </span>
-
-                `;
-
-
-
-                statusBox = `
-
-                <div class="course-status paid">
-
-
-                    <i class="fa-solid fa-lock"></i>
-
-
-                    الكورس مغلق
-
-
-                </div>
-
-                `;
-
-
-
-                buttonText =
-
-                "شراء الكورس";
-
-
-
-                buttonClass =
-
-                "buy-btn";
-
-
-            }
-
-
-
-
-
-            card.innerHTML = `
-
-
-            <div class="course-image">
-
-
-                <img
-
-                src="${course.image}"
-
-                alt="${escapeHTML(course.title)}"
-
-                >
-
-
-                ${priceBadge}
-
-
-            </div>
-
-
-
-
-            <div class="course-body">
-
-
-
-                <div class="course-subject">
-
-                    ${escapeHTML(course.subject)}
-
-                </div>
-
-
-
-
-                <div class="course-grade">
-
-                    ${escapeHTML(course.grade)}
-
-                </div>
-
-
-
-
-                <h2 class="course-title">
-
-                    ${escapeHTML(course.title)}
-
-                </h2>
-
-
-
-
-                <p class="course-description">
-
-                    ${escapeHTML(course.description)}
-
-                </p>
-
-
-
-                ${statusBox}
-
-
-
-
-                <button
-
-                class="course-btn ${buttonClass}"
-
-                data-id="${course.id}"
-
-                >
-
-                    ${buttonText}
-
-                </button>
-
-
-
-            </div>
-
-
-            `;
-
-
-
-
-
-
-            const btn =
-
-            card.querySelector(
-
-                ".course-btn"
-
-            );
-
-
-
-
-
-
-            btn.onclick = ()=>{
-
-
-                handleCourseAction(
-
-                    course
-
-                );
-
-
-            };
-
-
-
-
-
-            coursesContainer.appendChild(
-
-                card
-
-            );
-
-
-
+                `عدد الكورسات : ${allCourses.length}`;
 
         }
 
-    );
+        if (allCourses.length === 0) {
 
+            emptyState.style.display =
 
+                "flex";
 
-}
-// ==========================================
-// COURSE ACTION
-// ==========================================
+            return;
 
+        }
 
-async function handleCourseAction(course){
+        emptyState.style.display =
 
+            "none";
 
-    const isFree =
+        renderCourses(
 
-    Number(course.price) <= 0;
-
-
-
-
-    const isPurchased =
-
-    purchasedCourses.includes(
-
-        course.id
-
-    );
-
-
-
-
-
-    // ======================================
-    // OPEN CHAPTERS
-    // ======================================
-
-
-    if(isFree || isPurchased){
-
-
-        window.location.href =
-
-        `chapters.html?courseId=${encodeURIComponent(course.id)}`;
-
-
-        return;
-
-
-    }
-
-
-
-
-
-
-
-    // ======================================
-    // CHECK WALLET
-    // ======================================
-
-
-    if(studentWallet < course.price){
-
-
-        alert(
-
-`❌ لا يوجد رصيد كافي.
-
-رصيدك الحالي: ${studentWallet} جنيه
-
-سعر الكورس: ${course.price} جنيه`
+            allCourses
 
         );
 
+    }
 
-        return;
+    catch (error) {
 
+        console.error(
+
+            "Courses Error:",
+
+            error
+
+        );
+
+        hideLoading();
+
+        if (coursesCount) {
+
+            coursesCount.textContent =
+
+                "حدث خطأ أثناء تحميل الكورسات";
+
+        }
+
+        emptyState.style.display =
+
+            "flex";
 
     }
 
+}
 
 
 
+// ======================================================
+// REFRESH STUDENT DATA
+// ======================================================
 
+async function refreshStudentData() {
 
-
-    const confirmBuy =
-
-    confirm(
-
-`سيتم خصم ${course.price} جنيه من المحفظة.
-
-هل تريد شراء الكورس؟`
-
-    );
-
-
-
-
-
-    if(!confirmBuy){
-
-        return;
-
-    }
-
-
-
-
-
-
-
-    try{
-
-
-
-        const studentRef =
+    const studentRef =
 
         doc(
 
@@ -1027,33 +466,304 @@ async function handleCourseAction(course){
 
         );
 
+    const studentSnap =
+
+        await getDoc(
+
+            studentRef
+
+        );
+
+    if (!studentSnap.exists())
+
+        return;
+
+    studentData =
+
+        studentSnap.data();
+
+    studentWallet =
+
+        Number(
+
+            studentData.wallet || 0
+
+        );
+
+    purchasedCourses =
+
+        Array.isArray(
+
+            studentData.purchasedCourses
+
+        )
+
+            ? studentData.purchasedCourses
+
+            : [];
+
+}
 
 
 
+// ======================================================
+// UPDATE COUNTER
+// ======================================================
+
+function updateCoursesCounter(list) {
+
+    if (!coursesCount)
+
+        return;
+
+    coursesCount.textContent =
+
+        `عدد الكورسات : ${list.length}`;
+
+}
 
 
 
-        await updateDoc(
+// ======================================================
+// READY
+// ======================================================
 
-            studentRef,
+console.log(
 
-            {
+    "%cDashboard Part 2 Ready",
+
+    "color:#03A9F4;font-size:15px;font-weight:bold"
+
+);
+// ======================================================
+// RENDER COURSES
+// ======================================================
+
+function renderCourses(courses) {
+
+    coursesContainer.innerHTML = "";
+
+    updateCoursesCounter(courses);
+
+    if (courses.length === 0) {
+
+        emptyState.style.display = "flex";
+
+        return;
+
+    }
+
+    emptyState.style.display = "none";
+
+    courses.forEach((course) => {
+
+        const isFree =
+            Number(course.price) <= 0;
+
+        const isPurchased =
+            purchasedCourses.includes(course.id);
+
+        let badge = "";
+        let status = "";
+        let buttonText = "";
+        let buttonClass = "";
 
 
-                wallet:
 
-                studentWallet - course.price,
+        // ==========================================
+        // FREE COURSE
+        // ==========================================
+
+        if (isFree) {
+
+            badge = `
+                <span class="course-price free">
+                    مجاني
+                </span>
+            `;
+
+            status = `
+                <div class="course-status free">
+                    <i class="fa-solid fa-circle-check"></i>
+                    الكورس مجاني
+                </div>
+            `;
+
+            buttonText = "ابدأ الكورس";
+
+            buttonClass = "free-btn";
+
+        }
 
 
 
-                purchasedCourses:
+        // ==========================================
+        // PURCHASED
+        // ==========================================
 
-                arrayUnion(
+        else if (isPurchased) {
 
-                    course.id
+            badge = `
+                <span class="course-price purchased">
+                    تم الشراء
+                </span>
+            `;
 
-                )
+            status = `
+                <div class="course-status purchased">
+                    <i class="fa-solid fa-lock-open"></i>
+                    الكورس مفتوح
+                </div>
+            `;
 
+            buttonText = "فتح الكورس";
+
+            buttonClass = "open-btn";
+
+        }
+
+
+
+        // ==========================================
+        // LOCKED
+        // ==========================================
+
+        else {
+
+            badge = `
+                <span class="course-price paid">
+                    ${course.price} جنيه
+                </span>
+            `;
+
+            status = `
+                <div class="course-status paid">
+                    <i class="fa-solid fa-lock"></i>
+                    الكورس مغلق
+                </div>
+            `;
+
+            buttonText = "شراء الكورس";
+
+            buttonClass = "buy-btn";
+
+        }
+
+
+
+        const card = document.createElement("article");
+
+        card.className = "course-card";
+
+
+
+        card.innerHTML = `
+
+            <div class="course-image">
+
+                <img
+                    src="${course.image}"
+                    alt="${escapeHTML(course.title)}"
+                    loading="lazy"
+                >
+
+                ${badge}
+
+            </div>
+
+
+
+            <div class="course-body">
+
+                <div class="course-subject">
+
+                    ${escapeHTML(course.subject)}
+
+                </div>
+
+
+
+                <div class="course-grade">
+
+                    ${escapeHTML(course.grade)}
+
+                </div>
+
+
+
+                <h2 class="course-title">
+
+                    ${escapeHTML(course.title)}
+
+                </h2>
+
+
+
+                <p class="course-description">
+
+                    ${escapeHTML(course.description)}
+
+                </p>
+
+
+
+                <div class="course-info">
+
+                    <span>
+
+                        <i class="fa-solid fa-video"></i>
+
+                        ${course.lessonsCount} فيديو
+
+                    </span>
+
+                    <span>
+
+                        <i class="fa-solid fa-file-lines"></i>
+
+                        ${course.filesCount} ملف
+
+                    </span>
+
+                </div>
+
+
+
+                ${status}
+
+
+
+                <button
+
+                    class="course-btn ${buttonClass}"
+
+                    data-id="${course.id}"
+
+                >
+
+                    ${buttonText}
+
+                </button>
+
+            </div>
+
+        `;
+
+
+
+        const button =
+
+            card.querySelector(".course-btn");
+
+
+
+        button.addEventListener(
+
+            "click",
+
+            () => {
+
+                handleCourseAction(course);
 
             }
 
@@ -1061,17 +771,220 @@ async function handleCourseAction(course){
 
 
 
+        coursesContainer.appendChild(card);
+
+    });
+
+}
 
 
 
+// ======================================================
+// SEARCH
+// ======================================================
 
-        studentWallet -=
+if (searchInput) {
 
-        course.price;
+    searchInput.addEventListener(
+
+        "input",
+
+        () => {
+
+            const keyword =
+
+                searchInput.value
+
+                .trim()
+
+                .toLowerCase();
 
 
 
+            if (!keyword) {
 
+                renderCourses(allCourses);
+
+                return;
+
+            }
+
+
+
+            const filtered =
+
+                allCourses.filter((course) => {
+
+                    return (
+
+                        course.title
+
+                            .toLowerCase()
+
+                            .includes(keyword)
+
+                        ||
+
+                        course.subject
+
+                            .toLowerCase()
+
+                            .includes(keyword)
+
+                        ||
+
+                        course.grade
+
+                            .toLowerCase()
+
+                            .includes(keyword)
+
+                        ||
+
+                        course.description
+
+                            .toLowerCase()
+
+                            .includes(keyword)
+
+                    );
+
+                });
+
+
+
+            renderCourses(filtered);
+
+        }
+
+    );
+
+}
+
+
+
+// ======================================================
+// READY
+// ======================================================
+
+console.log(
+
+    "%cDashboard Part 3 Ready",
+
+    "color:#ff9800;font-size:15px;font-weight:bold"
+
+);
+// ======================================================
+// COURSE ACTION
+// ======================================================
+
+async function handleCourseAction(course) {
+
+    const isFree =
+        Number(course.price) <= 0;
+
+    const isPurchased =
+        purchasedCourses.includes(course.id);
+
+    // ==========================================
+    // OPEN COURSE
+    // ==========================================
+
+    if (isFree || isPurchased) {
+
+        window.location.href =
+            `chapters.html?courseId=${course.id}`;
+
+        return;
+
+    }
+
+    // ==========================================
+    // CHECK WALLET
+    // ==========================================
+
+    if (studentWallet < Number(course.price)) {
+
+        alert(
+
+`❌ لا يوجد رصيد كافٍ
+
+رصيدك الحالي : ${studentWallet} جنيه
+
+سعر الكورس : ${course.price} جنيه`
+
+        );
+
+        return;
+
+    }
+
+    // ==========================================
+    // CONFIRM
+    // ==========================================
+
+    const confirmBuy = confirm(
+
+`سيتم خصم ${course.price} جنيه من محفظتك.
+
+هل تريد إكمال عملية الشراء؟`
+
+    );
+
+    if (!confirmBuy)
+        return;
+
+    try {
+
+        const studentRef =
+
+            doc(
+                db,
+                "students",
+                currentUser.uid
+            );
+
+        const newWallet =
+
+            studentWallet -
+
+            Number(course.price);
+
+        // ==========================================
+        // UPDATE FIRESTORE
+        // ==========================================
+
+        await updateDoc(
+
+            studentRef,
+
+            {
+
+                wallet: newWallet,
+
+                purchasedCourses:
+
+                    arrayUnion(
+
+                        course.id
+
+                    ),
+
+                lastPurchase:
+
+                    serverTimestamp()
+
+            }
+
+        );
+
+        // ==========================================
+        // UPDATE LOCAL DATA
+        // ==========================================
+
+        studentWallet =
+
+            newWallet;
 
         purchasedCourses.push(
 
@@ -1079,100 +992,17 @@ async function handleCourseAction(course){
 
         );
 
+        studentData.wallet =
 
+            newWallet;
 
+        studentData.purchasedCourses =
 
+            purchasedCourses;
 
-
-        alert(
-
-            "✅ تم شراء الكورس بنجاح"
-
-        );
-
-
-
-
-
-
-
-        window.location.href =
-
-        `chapters.html?courseId=${encodeURIComponent(course.id)}`;
-
-
-
-
-
-
-    }
-
-
-
-    catch(error){
-
-
-
-        console.error(
-
-            "Buy Error:",
-
-            error
-
-        );
-
-
-
-        alert(
-
-            "حدث خطأ أثناء شراء الكورس."
-
-        );
-
-
-    }
-
-
-}
-
-
-
-
-
-
-
-// ==========================================
-// SEARCH
-// ==========================================
-
-
-if(searchInput){
-
-
-
-searchInput.addEventListener(
-
-"input",
-
-()=>{
-
-
-
-    const keyword =
-
-    searchInput.value
-
-    .trim()
-
-    .toLowerCase();
-
-
-
-
-
-
-    if(!keyword){
-
+        // ==========================================
+        // REFRESH UI
+        // ==========================================
 
         renderCourses(
 
@@ -1180,267 +1010,221 @@ searchInput.addEventListener(
 
         );
 
+        alert(
 
-        return;
-
-
-    }
-
-
-
-
-
-
-    const filtered =
-
-
-    allCourses.filter(
-
-    (course)=>{
-
-
-
-        return (
-
-
-            course.title
-
-            .toLowerCase()
-
-            .includes(keyword)
-
-
-
-            ||
-
-
-
-            course.subject
-
-            .toLowerCase()
-
-            .includes(keyword)
-
-
-
-            ||
-
-
-
-            course.grade
-
-            .toLowerCase()
-
-            .includes(keyword)
-
-
-
-            ||
-
-
-
-            course.description
-
-            .toLowerCase()
-
-            .includes(keyword)
-
-
+            "✅ تم شراء الكورس بنجاح."
 
         );
 
+        // ==========================================
+        // OPEN CHAPTERS
+        // ==========================================
 
+        setTimeout(() => {
 
-    }
+            window.location.href =
 
-    );
+                `chapters.html?courseId=${course.id}`;
 
-
-
-
-
-
-    renderCourses(
-
-        filtered
-
-    );
-
-
-
-
-}
-
-
-);
-
-
-
-}
-
-
-
-
-
-
-
-// ==========================================
-// LOGOUT
-// ==========================================
-
-
-if(logoutBtn){
-
-
-
-logoutBtn.onclick = async()=>{
-
-
-
-    const ok =
-
-    confirm(
-
-        "هل تريد تسجيل الخروج؟"
-
-    );
-
-
-
-    if(!ok){
-
-        return;
+        }, 400);
 
     }
 
+    catch (error) {
 
+        console.error(
 
+            "Purchase Error:",
 
-
-
-    try{
-
-
-        await signOut(
-
-            auth
+            error
 
         );
-
-
-
-        localStorage.clear();
-
-        sessionStorage.clear();
-
-
-
-        window.location.replace(
-
-            "login.html"
-
-        );
-
-
-
-    }
-
-
-
-    catch(error){
-
-
-
-        console.error(error);
-
-
 
         alert(
 
-            "حدث خطأ أثناء تسجيل الخروج."
+            `حدث خطأ أثناء الشراء
+
+${error.message}`
 
         );
 
-
-
     }
 
+}
+// ======================================================
+// LOGOUT
+// ======================================================
 
+const logoutButton = document.getElementById("logoutBtn");
 
+if (logoutButton) {
 
-};
+    logoutButton.addEventListener(
 
+        "click",
 
+        async () => {
+
+            const ok = confirm(
+
+                "هل تريد تسجيل الخروج؟"
+
+            );
+
+            if (!ok) return;
+
+            try {
+
+                await signOut(auth);
+
+                localStorage.clear();
+
+                sessionStorage.clear();
+
+                window.location.replace("login.html");
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                alert("حدث خطأ أثناء تسجيل الخروج.");
+
+            }
+
+        }
+
+    );
 
 }
 
 
 
-
-
-
-
-
-// ==========================================
+// ======================================================
 // ESCAPE HTML
-// ==========================================
+// ======================================================
+
+function escapeHTML(text = "") {
+
+    return String(text)
+
+        .replace(/&/g, "&amp;")
+
+        .replace(/</g, "&lt;")
+
+        .replace(/>/g, "&gt;")
+
+        .replace(/"/g, "&quot;")
+
+        .replace(/'/g, "&#039;");
+
+}
 
 
-function escapeHTML(value){
 
+// ======================================================
+// IMAGE ERROR
+// ======================================================
 
-return String(value)
+document.addEventListener(
 
-.replaceAll(
+    "error",
 
-"&",
+    (event) => {
 
-"&amp;"
+        if (
 
-)
+            event.target.tagName === "IMG"
 
-.replaceAll(
+        ) {
 
-"<",
+            event.target.src =
 
-"&lt;"
+                "assets/images/course-placeholder.png";
 
-)
+        }
 
-.replaceAll(
+    },
 
-">",
-
-"&gt;"
-
-)
-
-.replaceAll(
-
-'"',
-
-"&quot;"
-
-)
-
-.replaceAll(
-
-"'",
-
-"&#039;"
+    true
 
 );
 
 
+
+// ======================================================
+// REFRESH STUDENT
+// ======================================================
+
+async function refreshStudent() {
+
+    try {
+
+        const studentRef =
+
+            doc(
+
+                db,
+
+                "students",
+
+                currentUser.uid
+
+            );
+
+        const studentSnap =
+
+            await getDoc(studentRef);
+
+        if (!studentSnap.exists()) return;
+
+        studentData = studentSnap.data();
+
+        studentWallet = Number(studentData.wallet || 0);
+
+        purchasedCourses =
+
+            Array.isArray(studentData.purchasedCourses)
+
+                ? studentData.purchasedCourses
+
+                : [];
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+    }
+
 }
 
 
 
+// ======================================================
+// AUTO REFRESH
+// ======================================================
+
+setInterval(async () => {
+
+    if (!currentUser) return;
+
+    await refreshStudent();
+
+}, 60000);
 
 
+
+// ======================================================
+// PAGE READY
+// ======================================================
 
 console.log(
 
-"Dashboard Ready - Chapters System"
+    "%cDashboard Ready",
+
+    "color:#00c853;font-size:16px;font-weight:bold"
 
 );
