@@ -2,7 +2,6 @@
 // M.YOUSSEF PLATFORM
 // login.js
 // Part 1
-// Firebase Imports + Auth + Device Security
 // ======================================================
 
 
@@ -13,26 +12,38 @@
 import { auth, db } from "./firebase.js";
 
 import {
+
     signInWithEmailAndPassword,
+
     sendPasswordResetEmail,
+
     setPersistence,
+
     browserLocalPersistence,
+
     signOut,
+
     onAuthStateChanged
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 
 import {
+
     doc,
+
     getDoc,
+
     updateDoc,
+
     serverTimestamp
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 
 
 // ======================================================
-// HTML
+// HTML ELEMENTS
 // ======================================================
 
 const loginForm =
@@ -47,158 +58,73 @@ const passwordInput =
 const rememberMe =
     document.getElementById("rememberMe");
 
+const togglePassword =
+    document.getElementById("togglePassword");
+
+const forgotPassword =
+    document.getElementById("forgotPassword");
+
+const messageBox =
+    document.getElementById("messageBox");
+
 const loginButton =
     document.getElementById("loginButton");
 
 const buttonText =
     document.getElementById("buttonText");
 
-const buttonLoader =
-    document.getElementById("buttonLoader");
-
 const buttonIcon =
     document.getElementById("buttonIcon");
 
-const messageBox =
-    document.getElementById("messageBox");
+const buttonLoader =
+    document.getElementById("buttonLoader");
 
-const forgotPassword =
-    document.getElementById("forgotPassword");
-
-const togglePassword =
-    document.getElementById("togglePassword");
 
 
 // ======================================================
-// ADMIN
+// CONSTANTS
 // ======================================================
 
-const ADMIN_EMAIL = "teacher@physics.com";
-
-
-// ======================================================
-// LOCAL STORAGE KEYS
-// ======================================================
+const ADMIN_EMAIL =
+    "teacher@physics.com";
 
 const STORAGE = {
 
-    DEVICE_ID: "deviceId",
+    DEVICE_ID:
+        "deviceId",
 
-    SESSION_ID: "sessionId",
+    SESSION_ID:
+        "sessionId",
 
-    USER_UID: "userUID",
+    USER_UID:
+        "userUID",
 
-    USER_NAME: "userName",
+    USER_NAME:
+        "userName",
 
-    USER_EMAIL: "userEmail",
+    USER_ROLE:
+        "userRole",
 
-    USER_ROLE: "userRole"
+    USER_EMAIL:
+        "userEmail"
 
 };
 
 
-// ======================================================
-// AUTO LOGIN
-// ======================================================
-
-onAuthStateChanged(auth, async (user) => {
-
-    if (!user)
-        return;
-
-    try {
-
-        const studentRef =
-            doc(db, "students", user.uid);
-
-        const studentSnap =
-            await getDoc(studentRef);
-
-        if (!studentSnap.exists()) {
-
-            await signOut(auth);
-
-            return;
-
-        }
-
-        const data =
-            studentSnap.data();
-
-        const currentDevice =
-            await generateDeviceId();
-
-        // لو أول مرة
-        if (!data.deviceId) {
-
-            await updateDoc(studentRef, {
-
-                deviceId: currentDevice,
-
-                activeDeviceId: currentDevice,
-
-                deviceName: getDeviceName(),
-
-                lastLogin: serverTimestamp()
-
-            });
-
-        }
-
-        // الجهاز مختلف
-
-        else if (
-            data.deviceId !== currentDevice
-        ) {
-
-            await signOut(auth);
-
-            showMessage(
-                "هذا الحساب مرتبط بجهاز آخر.",
-                "error"
-            );
-
-            return;
-
-        }
-
-        window.location.replace(
-            "dashboard.html"
-        );
-
-    }
-
-    catch (e) {
-
-        console.error(e);
-
-    }
-
-});
-
 
 // ======================================================
-// SESSION ID
+// FINGERPRINT
 // ======================================================
 
-function generateSessionId() {
+let fpPromise = null;
 
-    if (crypto.randomUUID)
-        return crypto.randomUUID();
+if (window.FingerprintJS) {
 
-    return (
-
-        Date.now().toString(36) +
-
-        Math.random()
-
-        .toString(36)
-
-        .substring(2)
-
-    );
+    fpPromise =
+        FingerprintJS.load();
 
 }
+
 
 
 // ======================================================
@@ -207,63 +133,78 @@ function generateSessionId() {
 
 async function generateDeviceId() {
 
+    try {
+
+        if (fpPromise) {
+
+            const fp =
+                await fpPromise;
+
+            const result =
+                await fp.get();
+
+            return result.visitorId;
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.warn(
+            "Fingerprint Error",
+            error
+        );
+
+    }
+
     const raw = [
 
         navigator.userAgent,
 
-        navigator.platform,
-
         navigator.language,
 
-        navigator.hardwareConcurrency ||
-
-        "",
-
-        navigator.deviceMemory ||
-
-        "",
+        navigator.platform,
 
         screen.width,
 
         screen.height,
 
-        screen.colorDepth,
-
         Intl.DateTimeFormat()
 
-        .resolvedOptions()
+            .resolvedOptions()
 
-        .timeZone
+            .timeZone
 
     ].join("|");
-
 
     const encoder =
         new TextEncoder();
 
-    const data =
-        encoder.encode(raw);
-
     const hash =
         await crypto.subtle.digest(
+
             "SHA-256",
-            data
+
+            encoder.encode(raw)
+
         );
 
-    return Array
+    return Array.from(
 
-        .from(
-            new Uint8Array(hash)
-        )
+        new Uint8Array(hash)
 
-        .map(b =>
-            b.toString(16)
-            .padStart(2, "0")
+    )
+
+        .map(x =>
+            x.toString(16)
+                .padStart(2, "0")
         )
 
         .join("");
 
 }
+
 
 
 // ======================================================
@@ -277,34 +218,159 @@ function getDeviceName() {
 }
 
 
+
 // ======================================================
-// PASSWORD
+// SESSION ID
+// ======================================================
+
+function generateSessionId() {
+
+    if (crypto.randomUUID) {
+
+        return crypto.randomUUID();
+
+    }
+
+    return (
+
+        Date.now().toString(36) +
+
+        Math.random()
+
+            .toString(36)
+
+            .substring(2)
+
+    );
+
+}
+
+
+
+// ======================================================
+// PASSWORD TOGGLE
 // ======================================================
 
 if (togglePassword) {
 
-    togglePassword.onclick = () => {
+    togglePassword.addEventListener(
 
-        const hidden =
-            passwordInput.type ===
-            "password";
+        "click",
 
-        passwordInput.type =
-            hidden
-                ? "text"
-                : "password";
+        () => {
 
-        togglePassword.classList.toggle(
-            "fa-eye"
-        );
+            const hidden =
 
-        togglePassword.classList.toggle(
-            "fa-eye-slash"
-        );
+                passwordInput.type ===
+                "password";
 
-    };
+            passwordInput.type =
+
+                hidden
+
+                    ? "text"
+
+                    : "password";
+
+            togglePassword.classList.toggle(
+
+                "fa-eye"
+
+            );
+
+            togglePassword.classList.toggle(
+
+                "fa-eye-slash"
+
+            );
+
+        }
+
+    );
 
 }
+
+
+
+// ======================================================
+// AUTO LOGIN
+// ======================================================
+
+onAuthStateChanged(
+
+    auth,
+
+    async (user) => {
+
+        if (!user)
+            return;
+
+        try {
+
+            const studentRef =
+                doc(
+                    db,
+                    "students",
+                    user.uid
+                );
+
+            const studentSnap =
+                await getDoc(studentRef);
+
+            if (!studentSnap.exists()) {
+
+                await signOut(auth);
+
+                return;
+
+            }
+
+            const student =
+                studentSnap.data();
+
+            const currentDevice =
+                await generateDeviceId();
+
+            if (
+
+                student.deviceId &&
+
+                student.deviceId !== currentDevice
+
+            ) {
+
+                await signOut(auth);
+
+                showMessage(
+
+                    "هذا الحساب مرتبط بجهاز آخر.",
+
+                    "error"
+
+                );
+
+                return;
+
+            }
+
+            window.location.replace(
+
+                "dashboard.html"
+
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+        }
+
+    }
+
+);
+
 
 
 // ======================================================
@@ -312,7 +378,11 @@ if (togglePassword) {
 // ======================================================
 
 console.log(
-    "Login Part 1 Loaded"
+
+    "%cLogin Part 1 Ready",
+
+    "color:#00c853;font-size:14px;font-weight:bold"
+
 );
 // ======================================================
 // LOGIN
@@ -324,9 +394,9 @@ if (loginForm) {
 
         "submit",
 
-        async (e) => {
+        async (event) => {
 
-            e.preventDefault();
+            event.preventDefault();
 
             clearMessage();
 
@@ -336,7 +406,7 @@ if (loginForm) {
                 .toLowerCase();
 
             const password =
-                passwordInput.value.trim();
+                passwordInput.value;
 
             if (!email || !password) {
 
@@ -354,7 +424,7 @@ if (loginForm) {
             try {
 
                 // =====================================
-                // REMEMBER LOGIN
+                // SAVE LOGIN
                 // =====================================
 
                 await setPersistence(
@@ -366,7 +436,7 @@ if (loginForm) {
                 );
 
                 // =====================================
-                // LOGIN FIREBASE
+                // LOGIN
                 // =====================================
 
                 const credential =
@@ -391,14 +461,22 @@ if (loginForm) {
                 const studentRef =
 
                     doc(
+
                         db,
+
                         "students",
+
                         user.uid
+
                     );
 
                 const studentSnap =
 
-                    await getDoc(studentRef);
+                    await getDoc(
+
+                        studentRef
+
+                    );
 
                 if (!studentSnap.exists()) {
 
@@ -418,15 +496,21 @@ if (loginForm) {
                 // =====================================
 
                 if (
+
                     student.accountStatus ===
+
                     "blocked"
+
                 ) {
 
                     await signOut(auth);
 
                     showMessage(
+
                         "تم إيقاف هذا الحساب.",
+
                         "error"
+
                     );
 
                     setLoading(false);
@@ -440,13 +524,12 @@ if (loginForm) {
                 // =====================================
 
                 const currentDevice =
-
                     await generateDeviceId();
 
-                const currentName =
+                const currentDeviceName =
                     getDeviceName();
 
-                const currentSession =
+                const sessionId =
                     generateSessionId();
 
                 // =====================================
@@ -467,11 +550,11 @@ if (loginForm) {
                             activeDeviceId:
                                 currentDevice,
 
-                            currentSessionId:
-                                currentSession,
-
                             deviceName:
-                                currentName,
+                                currentDeviceName,
+
+                            currentSessionId:
+                                sessionId,
 
                             lastLogin:
                                 serverTimestamp()
@@ -483,38 +566,34 @@ if (loginForm) {
                 }
 
                 // =====================================
-                // DEVICE LOCK
-                // =====================================
-
-                else if (
-
-                    student.deviceId !==
-
-                    currentDevice
-
-                ) {
-
-                    await signOut(auth);
-
-                    showMessage(
-
-                        "هذا الحساب يعمل على جهاز آخر.",
-
-                        "error"
-
-                    );
-
-                    setLoading(false);
-
-                    return;
-
-                }
-
-                // =====================================
-                // UPDATE SESSION
+                // DEVICE CHECK
                 // =====================================
 
                 else {
+
+                    if (
+
+                        student.deviceId !==
+
+                        currentDevice
+
+                    ) {
+
+                        await signOut(auth);
+
+                        showMessage(
+
+                            "هذا الحساب مرتبط بجهاز آخر.",
+
+                            "error"
+
+                        );
+
+                        setLoading(false);
+
+                        return;
+
+                    }
 
                     await updateDoc(
 
@@ -526,10 +605,10 @@ if (loginForm) {
                                 currentDevice,
 
                             currentSessionId:
-                                currentSession,
+                                sessionId,
 
                             deviceName:
-                                currentName,
+                                currentDeviceName,
 
                             lastLogin:
                                 serverTimestamp()
@@ -556,7 +635,7 @@ if (loginForm) {
 
                     STORAGE.SESSION_ID,
 
-                    currentSession
+                    sessionId
 
                 );
 
@@ -640,7 +719,7 @@ if (loginForm) {
 
                     );
 
-                }, 600);
+                }, 800);
 
             }
 
@@ -697,9 +776,9 @@ if (forgotPassword) {
 
         "click",
 
-        async (e) => {
+        async (event) => {
 
-            e.preventDefault();
+            event.preventDefault();
 
             clearMessage();
 
@@ -711,11 +790,8 @@ if (forgotPassword) {
             if (!email) {
 
                 showMessage(
-
-                    "يرجى إدخال البريد الإلكتروني أولاً.",
-
+                    "يرجى كتابة البريد الإلكتروني أولاً.",
                     "error"
-
                 );
 
                 emailInput.focus();
@@ -771,7 +847,7 @@ if (forgotPassword) {
 
 
 // ======================================================
-// LOADING BUTTON
+// LOADING
 // ======================================================
 
 function setLoading(isLoading) {
@@ -788,9 +864,9 @@ function setLoading(isLoading) {
 
             isLoading
 
-            ? "inline-flex"
+                ? "inline-flex"
 
-            : "none";
+                : "none";
 
     }
 
@@ -800,9 +876,9 @@ function setLoading(isLoading) {
 
             isLoading
 
-            ? "none"
+                ? "none"
 
-            : "inline-flex";
+                : "inline-flex";
 
     }
 
@@ -812,9 +888,9 @@ function setLoading(isLoading) {
 
             isLoading
 
-            ? "جاري تسجيل الدخول..."
+                ? "جاري تسجيل الدخول..."
 
-            : "تسجيل الدخول";
+                : "تسجيل الدخول";
 
     }
 
@@ -828,17 +904,15 @@ function setLoading(isLoading) {
 
 function showMessage(message, type = "info") {
 
-    if (!messageBox) return;
+    if (!messageBox)
+        return;
+
+    messageBox.style.display = "block";
 
     messageBox.textContent = message;
 
     messageBox.className =
-
         `message-box ${type}`;
-
-    messageBox.style.display =
-
-        "block";
 
 }
 
@@ -850,16 +924,15 @@ function showMessage(message, type = "info") {
 
 function clearMessage() {
 
-    if (!messageBox) return;
+    if (!messageBox)
+        return;
 
     messageBox.textContent = "";
 
     messageBox.className =
-
         "message-box";
 
     messageBox.style.display =
-
         "none";
 
 }
@@ -867,48 +940,163 @@ function clearMessage() {
 
 
 // ======================================================
-// PASSWORD VISIBILITY
+// FIREBASE ERRORS
 // ======================================================
 
-if (togglePassword) {
+function getFirebaseErrorMessage(code) {
 
-    togglePassword.addEventListener(
+    switch (code) {
 
-        "click",
+        case "auth/invalid-email":
 
-        () => {
+            return "البريد الإلكتروني غير صحيح.";
 
-            const hidden =
+        case "auth/invalid-credential":
 
-                passwordInput.type ===
+            return "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
 
-                "password";
+        case "auth/user-not-found":
 
-            passwordInput.type =
+            return "الحساب غير موجود.";
 
-                hidden
+        case "auth/wrong-password":
 
-                ? "text"
+            return "كلمة المرور غير صحيحة.";
 
-                : "password";
+        case "auth/email-already-in-use":
 
-            togglePassword.classList.toggle(
+            return "البريد الإلكتروني مستخدم بالفعل.";
 
-                "fa-eye"
+        case "auth/weak-password":
 
+            return "كلمة المرور ضعيفة.";
+
+        case "auth/network-request-failed":
+
+            return "تحقق من اتصال الإنترنت.";
+
+        case "auth/too-many-requests":
+
+            return "تم تجاوز عدد المحاولات المسموح بها.";
+
+        case "auth/user-disabled":
+
+            return "تم تعطيل الحساب.";
+
+        case "permission-denied":
+
+            return "ليس لديك صلاحية.";
+
+        default:
+
+            return "حدث خطأ أثناء تسجيل الدخول.";
+
+    }
+
+}
+
+
+
+// ======================================================
+// CHECK SESSION
+// ======================================================
+
+async function verifySession() {
+
+    const user = auth.currentUser;
+
+    if (!user)
+        return;
+
+    try {
+
+        const studentRef =
+            doc(
+                db,
+                "students",
+                user.uid
             );
 
-            togglePassword.classList.toggle(
+        const studentSnap =
+            await getDoc(studentRef);
 
-                "fa-eye-slash"
+        if (!studentSnap.exists()) {
 
+            localStorage.clear();
+
+            await signOut(auth);
+
+            window.location.replace(
+                "login.html"
+            );
+
+            return;
+
+        }
+
+        const student =
+            studentSnap.data();
+
+        const currentDevice =
+            await generateDeviceId();
+
+        const localDevice =
+            localStorage.getItem(
+                STORAGE.DEVICE_ID
+            );
+
+        const localSession =
+            localStorage.getItem(
+                STORAGE.SESSION_ID
+            );
+
+        if (
+
+            student.deviceId !== currentDevice ||
+
+            student.activeDeviceId !== currentDevice ||
+
+            student.currentSessionId !== localSession ||
+
+            localDevice !== currentDevice
+
+        ) {
+
+            localStorage.clear();
+
+            await signOut(auth);
+
+            alert(
+                "تم تسجيل خروجك لأن الحساب يعمل على جهاز آخر."
+            );
+
+            window.location.replace(
+                "login.html"
             );
 
         }
 
-    );
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+    }
 
 }
+
+
+
+// ======================================================
+// CHECK EVERY 20 SECONDS
+// ======================================================
+
+setInterval(() => {
+
+    verifySession();
+
+}, 20000);
 
 
 
@@ -948,139 +1136,31 @@ window.addEventListener(
 
 console.log(
 
-    "%cM.YOUSSEF Login Loaded",
+    "%cLogin Part 3 Loaded",
 
-    "color:#00c853;font-size:14px;font-weight:bold"
+    "color:#00BCD4;font-size:14px;font-weight:bold"
 
 );
 // ======================================================
-// FIREBASE ERROR MESSAGES
+// ACTIVITY TRACKER
 // ======================================================
 
-function getFirebaseErrorMessage(code) {
+async function updateLastSeen() {
 
-    switch (code) {
+    const user = auth.currentUser;
 
-        case "auth/invalid-email":
-            return "البريد الإلكتروني غير صحيح.";
-
-        case "auth/invalid-credential":
-            return "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
-
-        case "auth/user-not-found":
-            return "الحساب غير موجود.";
-
-        case "auth/wrong-password":
-            return "كلمة المرور غير صحيحة.";
-
-        case "auth/user-disabled":
-            return "تم تعطيل هذا الحساب.";
-
-        case "auth/network-request-failed":
-            return "تحقق من اتصال الإنترنت.";
-
-        case "auth/too-many-requests":
-            return "عدد كبير من المحاولات، حاول مرة أخرى لاحقًا.";
-
-        case "auth/missing-password":
-            return "يرجى إدخال كلمة المرور.";
-
-        case "auth/internal-error":
-            return "حدث خطأ داخلي.";
-
-        default:
-            return "حدث خطأ أثناء تسجيل الدخول.";
-    }
-
-}
-
-
-
-// ======================================================
-// SESSION CHECK
-// ======================================================
-
-async function verifyCurrentSession(user) {
+    if (!user) return;
 
     try {
 
         const studentRef =
             doc(db, "students", user.uid);
 
-        const studentSnap =
-            await getDoc(studentRef);
+        await updateDoc(studentRef, {
 
-        if (!studentSnap.exists()) {
+            lastSeen: serverTimestamp()
 
-            await signOut(auth);
-
-            return false;
-
-        }
-
-        const data =
-            studentSnap.data();
-
-        const currentDevice =
-            await generateDeviceId();
-
-        const savedDevice =
-            localStorage.getItem(STORAGE.DEVICE_ID);
-
-        const savedSession =
-            localStorage.getItem(STORAGE.SESSION_ID);
-
-        if (
-            data.deviceId !== currentDevice ||
-            data.activeDeviceId !== currentDevice
-        ) {
-
-            localStorage.clear();
-
-            await signOut(auth);
-
-            alert("تم تسجيل الدخول من جهاز آخر.");
-
-            window.location.replace("login.html");
-
-            return false;
-
-        }
-
-        if (
-            data.currentSessionId &&
-            savedSession &&
-            data.currentSessionId !== savedSession
-        ) {
-
-            localStorage.clear();
-
-            await signOut(auth);
-
-            alert("انتهت صلاحية جلسة تسجيل الدخول.");
-
-            window.location.replace("login.html");
-
-            return false;
-
-        }
-
-        if (
-            savedDevice &&
-            savedDevice !== currentDevice
-        ) {
-
-            localStorage.clear();
-
-            await signOut(auth);
-
-            window.location.replace("login.html");
-
-            return false;
-
-        }
-
-        return true;
+        });
 
     }
 
@@ -1088,8 +1168,6 @@ async function verifyCurrentSession(user) {
 
         console.error(error);
 
-        return false;
-
     }
 
 }
@@ -1097,60 +1175,77 @@ async function verifyCurrentSession(user) {
 
 
 // ======================================================
-// KEEP SESSION ALIVE
+// UPDATE LAST SEEN EVERY MINUTE
 // ======================================================
 
-onAuthStateChanged(
+setInterval(() => {
 
-    auth,
+    if (auth.currentUser) {
 
-    async (user) => {
-
-        if (!user)
-            return;
-
-        await verifyCurrentSession(user);
+        updateLastSeen();
 
     }
 
-);
+}, 60000);
 
 
 
 // ======================================================
-// CHECK EVERY 30 SECONDS
+// NETWORK STATUS
 // ======================================================
 
-setInterval(async () => {
+window.addEventListener("offline", () => {
 
-    const user = auth.currentUser;
+    showMessage(
 
-    if (!user)
-        return;
+        "تم فقد الاتصال بالإنترنت.",
 
-    await verifyCurrentSession(user);
+        "error"
 
-}, 30000);
+    );
 
+});
 
+window.addEventListener("online", () => {
 
-// ======================================================
-// CLEAR DATA ON LOGOUT
-// ======================================================
+    showMessage(
 
-window.addEventListener("unload", () => {
+        "تم استعادة الاتصال بالإنترنت.",
 
-    clearMessage();
+        "success"
+
+    );
 
 });
 
 
 
 // ======================================================
-// LOGIN READY
+// CLEAR STORAGE ON AUTH LOGOUT
+// ======================================================
+
+onAuthStateChanged(auth, (user) => {
+
+    if (!user) {
+
+        localStorage.removeItem(STORAGE.DEVICE_ID);
+        localStorage.removeItem(STORAGE.SESSION_ID);
+        localStorage.removeItem(STORAGE.USER_UID);
+        localStorage.removeItem(STORAGE.USER_NAME);
+        localStorage.removeItem(STORAGE.USER_EMAIL);
+        localStorage.removeItem(STORAGE.USER_ROLE);
+
+    }
+
+});
+
+
+
+// ======================================================
+// FINAL READY
 // ======================================================
 
 console.log(
     "%cM.YOUSSEF Login System Ready",
-    "color:#ff9800;font-size:14px;font-weight:bold"
+    "color:#00E676;font-size:15px;font-weight:bold"
 );
