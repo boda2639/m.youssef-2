@@ -687,3 +687,470 @@ if (loginForm) {
     );
 
 }
+// ======================================================
+// FORGOT PASSWORD
+// ======================================================
+
+if (forgotPassword) {
+
+    forgotPassword.addEventListener(
+
+        "click",
+
+        async (e) => {
+
+            e.preventDefault();
+
+            clearMessage();
+
+            const email =
+                emailInput.value
+                .trim()
+                .toLowerCase();
+
+            if (!email) {
+
+                showMessage(
+
+                    "يرجى إدخال البريد الإلكتروني أولاً.",
+
+                    "error"
+
+                );
+
+                emailInput.focus();
+
+                return;
+
+            }
+
+            try {
+
+                await sendPasswordResetEmail(
+
+                    auth,
+
+                    email
+
+                );
+
+                showMessage(
+
+                    "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.",
+
+                    "success"
+
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                showMessage(
+
+                    getFirebaseErrorMessage(
+
+                        error.code
+
+                    ),
+
+                    "error"
+
+                );
+
+            }
+
+        }
+
+    );
+
+}
+
+
+
+// ======================================================
+// LOADING BUTTON
+// ======================================================
+
+function setLoading(isLoading) {
+
+    if (loginButton) {
+
+        loginButton.disabled = isLoading;
+
+    }
+
+    if (buttonLoader) {
+
+        buttonLoader.style.display =
+
+            isLoading
+
+            ? "inline-flex"
+
+            : "none";
+
+    }
+
+    if (buttonIcon) {
+
+        buttonIcon.style.display =
+
+            isLoading
+
+            ? "none"
+
+            : "inline-flex";
+
+    }
+
+    if (buttonText) {
+
+        buttonText.textContent =
+
+            isLoading
+
+            ? "جاري تسجيل الدخول..."
+
+            : "تسجيل الدخول";
+
+    }
+
+}
+
+
+
+// ======================================================
+// SHOW MESSAGE
+// ======================================================
+
+function showMessage(message, type = "info") {
+
+    if (!messageBox) return;
+
+    messageBox.textContent = message;
+
+    messageBox.className =
+
+        `message-box ${type}`;
+
+    messageBox.style.display =
+
+        "block";
+
+}
+
+
+
+// ======================================================
+// CLEAR MESSAGE
+// ======================================================
+
+function clearMessage() {
+
+    if (!messageBox) return;
+
+    messageBox.textContent = "";
+
+    messageBox.className =
+
+        "message-box";
+
+    messageBox.style.display =
+
+        "none";
+
+}
+
+
+
+// ======================================================
+// PASSWORD VISIBILITY
+// ======================================================
+
+if (togglePassword) {
+
+    togglePassword.addEventListener(
+
+        "click",
+
+        () => {
+
+            const hidden =
+
+                passwordInput.type ===
+
+                "password";
+
+            passwordInput.type =
+
+                hidden
+
+                ? "text"
+
+                : "password";
+
+            togglePassword.classList.toggle(
+
+                "fa-eye"
+
+            );
+
+            togglePassword.classList.toggle(
+
+                "fa-eye-slash"
+
+            );
+
+        }
+
+    );
+
+}
+
+
+
+// ======================================================
+// PAGE EVENTS
+// ======================================================
+
+window.addEventListener(
+
+    "load",
+
+    () => {
+
+        clearMessage();
+
+    }
+
+);
+
+window.addEventListener(
+
+    "beforeunload",
+
+    () => {
+
+        clearMessage();
+
+    }
+
+);
+
+
+
+// ======================================================
+// READY
+// ======================================================
+
+console.log(
+
+    "%cM.YOUSSEF Login Loaded",
+
+    "color:#00c853;font-size:14px;font-weight:bold"
+
+);
+// ======================================================
+// FIREBASE ERROR MESSAGES
+// ======================================================
+
+function getFirebaseErrorMessage(code) {
+
+    switch (code) {
+
+        case "auth/invalid-email":
+            return "البريد الإلكتروني غير صحيح.";
+
+        case "auth/invalid-credential":
+            return "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+
+        case "auth/user-not-found":
+            return "الحساب غير موجود.";
+
+        case "auth/wrong-password":
+            return "كلمة المرور غير صحيحة.";
+
+        case "auth/user-disabled":
+            return "تم تعطيل هذا الحساب.";
+
+        case "auth/network-request-failed":
+            return "تحقق من اتصال الإنترنت.";
+
+        case "auth/too-many-requests":
+            return "عدد كبير من المحاولات، حاول مرة أخرى لاحقًا.";
+
+        case "auth/missing-password":
+            return "يرجى إدخال كلمة المرور.";
+
+        case "auth/internal-error":
+            return "حدث خطأ داخلي.";
+
+        default:
+            return "حدث خطأ أثناء تسجيل الدخول.";
+    }
+
+}
+
+
+
+// ======================================================
+// SESSION CHECK
+// ======================================================
+
+async function verifyCurrentSession(user) {
+
+    try {
+
+        const studentRef =
+            doc(db, "students", user.uid);
+
+        const studentSnap =
+            await getDoc(studentRef);
+
+        if (!studentSnap.exists()) {
+
+            await signOut(auth);
+
+            return false;
+
+        }
+
+        const data =
+            studentSnap.data();
+
+        const currentDevice =
+            await generateDeviceId();
+
+        const savedDevice =
+            localStorage.getItem(STORAGE.DEVICE_ID);
+
+        const savedSession =
+            localStorage.getItem(STORAGE.SESSION_ID);
+
+        if (
+            data.deviceId !== currentDevice ||
+            data.activeDeviceId !== currentDevice
+        ) {
+
+            localStorage.clear();
+
+            await signOut(auth);
+
+            alert("تم تسجيل الدخول من جهاز آخر.");
+
+            window.location.replace("login.html");
+
+            return false;
+
+        }
+
+        if (
+            data.currentSessionId &&
+            savedSession &&
+            data.currentSessionId !== savedSession
+        ) {
+
+            localStorage.clear();
+
+            await signOut(auth);
+
+            alert("انتهت صلاحية جلسة تسجيل الدخول.");
+
+            window.location.replace("login.html");
+
+            return false;
+
+        }
+
+        if (
+            savedDevice &&
+            savedDevice !== currentDevice
+        ) {
+
+            localStorage.clear();
+
+            await signOut(auth);
+
+            window.location.replace("login.html");
+
+            return false;
+
+        }
+
+        return true;
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        return false;
+
+    }
+
+}
+
+
+
+// ======================================================
+// KEEP SESSION ALIVE
+// ======================================================
+
+onAuthStateChanged(
+
+    auth,
+
+    async (user) => {
+
+        if (!user)
+            return;
+
+        await verifyCurrentSession(user);
+
+    }
+
+);
+
+
+
+// ======================================================
+// CHECK EVERY 30 SECONDS
+// ======================================================
+
+setInterval(async () => {
+
+    const user = auth.currentUser;
+
+    if (!user)
+        return;
+
+    await verifyCurrentSession(user);
+
+}, 30000);
+
+
+
+// ======================================================
+// CLEAR DATA ON LOGOUT
+// ======================================================
+
+window.addEventListener("unload", () => {
+
+    clearMessage();
+
+});
+
+
+
+// ======================================================
+// LOGIN READY
+// ======================================================
+
+console.log(
+    "%cM.YOUSSEF Login System Ready",
+    "color:#ff9800;font-size:14px;font-weight:bold"
+);
